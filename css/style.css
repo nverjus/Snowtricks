@@ -1,0 +1,105 @@
+body {
+  color: #13293D;
+  font-family: 'Roboto', sans-serif;
+}
+
+a {
+  color: #0056b3;
+}
+
+.nav-bottom-item {
+  margin: 0 10% 0 10%;
+}
+
+#bottom-list {
+  width: 100%;
+}
+
+header {
+  width: 100%;
+  background: url(../img/front-image.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  /* pour anciens Chrome et Safari */
+  background-size: cover;
+  /* version standardisée */
+  height: 95vh;
+}
+
+.row-header {
+  height: 50%;
+}
+
+.title {
+  text-align: center;
+  font-weight: bold;
+  color: #247BA0;
+  text-shadow: #13293D 1px 1px, #13293D -1px 1px, #13293D -1px -1px, #13293D 1px -1px;
+}
+
+.title h1 {
+  font-size: 4em;
+}
+
+.title p {
+  font-size: 2.5em;
+}
+
+.arrow-down, .arrow-up {
+  text-align: right;
+}
+
+.arrow-down a, .arrow-up a {
+  color: #0056b3;
+  margin: 10px;
+  font-size: 2.5em;
+}
+
+.trick {
+  margin: 20px;
+}
+
+.trick img, .trick-actions {
+  border: solid #E8F1F2 1px;
+  background-color: #E8F1F2;
+}
+
+.trick img {
+  border-bottom: none;
+}
+
+.trick-actions {
+  font-size: 1em;
+  text-align: center;
+}
+
+.trick-icons {
+  font-size: 1em;
+}
+
+.showmore {
+  text-align: center;
+}
+
+.arrow-up {
+  display: none;
+}
+
+footer {
+  padding-bottom: 20px;
+}
+
+small {
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 720px) {
+  .title h1 {
+    font-size: 3em;
+  }
+  .title p {
+    font-size: 1.5em;
+  }
+  #content {
+    margin-bottom: 70px;
+  }
+}
