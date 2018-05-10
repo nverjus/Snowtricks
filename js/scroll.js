@@ -15,4 +15,9 @@ $(function() {
     }
   });
 
+  $(".show-medias").click(function() {
+    $(".medias").css("display", "block");
+    $(".show-medias").css("display", "none");
+  });
+
 });
