@@ -106,6 +106,10 @@ small {
   background-color: white;
 }
 
+.trick-description, .trick-form {
+  margin-top: 45px;
+}
+
 .front-img {
   padding: 0;
 }
@@ -113,7 +117,6 @@ small {
 .icons {
   z-index: 5000;
   margin-right: 20px;
-  background-color: white;
   border-radius: 3px;
   position: relative;
   bottom: -4vh;
@@ -129,7 +132,7 @@ small {
   margin: 20px 0 20px 0;
 }
 
-.show-medias {
+.show-medias, .add-media {
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -158,11 +161,7 @@ small {
   .trick-content {
     position: relative;
     bottom: 75vh;
-    margin-bottom: -75vh;
-  }
-  iframe {
-    width: 100%;
-    height: 90px;
+    margin-bottom: -75vh
   }
 }
 
@@ -176,8 +175,16 @@ small {
   #content {
     margin-bottom: 70px;
   }
+  .trick-content {
+    position: relative;
+    bottom: 0;
+    margin-bottom: 0;
+  }
   .medias {
     display: none;
+  }
+  .medias img, .medias .embed-responsive {
+    margin-bottom: -85px;
   }
   .medias div {
     margin: 20px 0 20px 0;
@@ -189,9 +196,5 @@ small {
   .leave-comment {
     margin-top: 10px;
     width: 100% text-align: center;
-  }
-  iframe {
-    width: 100%;
-    height: 300px;
   }
 }
