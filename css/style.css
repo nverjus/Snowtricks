@@ -161,6 +161,11 @@ small {
   text-align: center;
 }
 
+form .form-group {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
 @media screen and (min-width: 768px) {
   .trick-content {
     position: relative;
@@ -174,7 +179,7 @@ small {
   }
   .forms {
     margin-top: 80px;
-    margin-bottom: 30vh;
+    height: 77vh;
   }
 }
 
@@ -216,12 +221,9 @@ small {
   }
   .forms {
     border: solid #c6cfd0 1px;
-    margin: 20px 10px 10px 10px;
+    margin: 20px 10px 0 10px;
     padding-top: 40px;
     padding-bottom: 30px;
-  }
-  form .form-group {
-    margin-top: 30px;
-    margin-bottom: 20px;
+    height: 87vh;
   }
 }
