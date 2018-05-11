@@ -157,11 +157,24 @@ small {
   text-align: center;
 }
 
+.forms {
+  text-align: center;
+}
+
 @media screen and (min-width: 768px) {
   .trick-content {
     position: relative;
     bottom: 75vh;
     margin-bottom: -75vh
+  }
+  .form {
+    border: solid #c6cfd0 1px;
+    margin-top: 60px;
+    padding: 10px 0 10px 0;
+  }
+  .forms {
+    margin-top: 80px;
+    margin-bottom: 30vh;
   }
 }
 
@@ -196,5 +209,19 @@ small {
   .leave-comment {
     margin-top: 10px;
     width: 100% text-align: center;
+  }
+  .form {
+    margin-top: 30px;
+    padding: 10px 0 10px 0;
+  }
+  .forms {
+    border: solid #c6cfd0 1px;
+    margin: 20px 10px 10px 10px;
+    padding-top: 40px;
+    padding-bottom: 30px;
+  }
+  form .form-group {
+    margin-top: 30px;
+    margin-bottom: 20px;
   }
 }
