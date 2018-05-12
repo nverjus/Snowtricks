@@ -1,27 +1,26 @@
 <?php
-
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=25, unique=true)
      */
-    private $name;
+    private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -29,24 +28,14 @@ class User
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=254, unique=true)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="is_active", type="boolean")
      */
-    private $token;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $validated;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
-     */
-    private $comments;
+    private $isActive;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\UserPhoto", mappedBy="user", cascade={"persist", "remove"})
@@ -55,29 +44,67 @@ class User
 
     public function __construct()
     {
-        $this->comments = new ArrayCollection();
+        $this->isActive = true;
     }
 
-    public function getId()
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getSalt()
+    {
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function setUsername(string $username): self
     {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
+        $this->username = $username;
 
         return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
     }
 
     public function setPassword(string $password): self
@@ -99,57 +126,14 @@ class User
         return $this;
     }
 
-    public function getToken(): ?string
+    public function getIsActive(): ?bool
     {
-        return $this->token;
+        return $this->isActive;
     }
 
-    public function setToken(string $token): self
+    public function setIsActive(bool $isActive): self
     {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    public function getValidated(): ?bool
-    {
-        return $this->validated;
-    }
-
-    public function setValidated(bool $validated): self
-    {
-        $this->validated = $validated;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Comment[]
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): self
-    {
-        if ($this->comments->contains($comment)) {
-            $this->comments->removeElement($comment);
-            // set the owning side to null (unless already changed)
-            if ($comment->getUser() === $this) {
-                $comment->setUser(null);
-            }
-        }
+        $this->isActive = $isActive;
 
         return $this;
     }
@@ -159,13 +143,14 @@ class User
         return $this->userPhoto;
     }
 
-    public function setUserPhoto(UserPhoto $userPhoto): self
+    public function setUserPhoto(?UserPhoto $userPhoto): self
     {
         $this->userPhoto = $userPhoto;
 
-        // set the owning side of the relation if necessary
-        if ($this !== $userPhoto->getUser()) {
-            $userPhoto->setUser($this);
+        // set (or unset) the owning side of the relation if necessary
+        $newUser = $userPhoto === null ? null : $this;
+        if ($newUser !== $userPhoto->getUser()) {
+            $userPhoto->setUser($newUser);
         }
 
         return $this;

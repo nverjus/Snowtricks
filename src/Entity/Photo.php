@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\PhotoRepository")
+ */
 abstract class Photo
 {
     /**
@@ -16,28 +19,16 @@ abstract class Photo
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $alt;
+    private $adress;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $adress;
+    private $alt;
 
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getAlt(): ?string
-    {
-        return $this->alt;
-    }
-
-    public function setAlt(string $alt): self
-    {
-        $this->alt = $alt;
-
-        return $this;
     }
 
     public function getAdress(): ?string
@@ -48,6 +39,18 @@ abstract class Photo
     public function setAdress(string $adress): self
     {
         $this->adress = $adress;
+
+        return $this;
+    }
+
+    public function getAlt(): ?string
+    {
+        return $this->alt;
+    }
+
+    public function setAlt(string $alt): self
+    {
+        $this->alt = $alt;
 
         return $this;
     }

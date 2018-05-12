@@ -18,7 +18,6 @@ class UserPhoto extends Photo
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="userPhoto", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
@@ -32,7 +31,7 @@ class UserPhoto extends Photo
         return $this->user;
     }
 
-    public function setUser(User $user): self
+    public function setUser(?User $user): self
     {
         $this->user = $user;
 

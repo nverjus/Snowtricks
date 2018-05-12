@@ -1,13 +1,21 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+        db_provider:
+            entity:
+                class:    App\Entity\User
+                property: email
+
+    encoders:
+        App\Entity\User:
+            algorithm:    argon2i
+
     firewalls:
         dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+            pattern:      ^/(_(profiler|wdt)|css|images|js)/
+            security:     false
         main:
-            anonymous: true
+            anonymous:    true
 
             # activate different ways to authenticate
 
@@ -18,7 +26,7 @@ security:
             # https://symfony.com/doc/current/security/form_login_setup.html
 
     # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
+    # Note:               Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
