@@ -23,7 +23,7 @@ class CommentRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->leftJoin('c.trick', 't')
-            ->where('t.id > :trickId')
+            ->where('t.id = :trickId')
             ->setParameter('trickId', $trickId)
             ->orderBy('c.id', 'ASC')
             ->setMaxResults($commentsPerPage)
@@ -37,18 +37,19 @@ class CommentRepository extends ServiceEntityRepository
      * @return int Returns hte number of comments for a trick in database
      */
 
-    public function fingNbPages($commentsPerPage)
+    public function findNbPages($trickId, $commentsPerPage)
     {
         $nbComments = $this->createQueryBuilder('c')
                         ->select('COUNT(t)')
-                        ->andWhere('c.trick_id > :trick_id')
+                        ->leftJoin('c.trick', 't')
+                        ->where('t.id = :trick_id')
                         ->setParameter('trick_id', $trickId)
                         ->getQuery()
                         ->getSingleScalarResult();
 
         $nbPages = (int) $nbComments/$commentsPerPage;
         $nbPages = (int) $nbPages;
-        if ($nbCommentss%$commentsPerPage != 0) {
+        if ($nbComments%$commentsPerPage != 0) {
             $nbPages++;
         }
 

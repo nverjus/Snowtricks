@@ -34,7 +34,7 @@ class FrontController extends Controller
             }
             $tricksData[] = $trickData;
         }
-        $data['nbPages'] = $this->getDoctrine()->getRepository(Trick::class)->fingNbPages($this->getParameter('tricks_per_page'));
+        $data['nbPages'] = $this->getDoctrine()->getRepository(Trick::class)->findNbPages($this->getParameter('tricks_per_page'));
         $data['tricks'] = $tricksData;
 
         $JSONdata =  $this->get('serializer')->serialize($data, 'json');
@@ -51,5 +51,38 @@ class FrontController extends Controller
         $comments = $tricks = $this->getDoctrine()->getRepository(Comment::class)->findAPage($id, 0, $this->getParameter('comments_per_page'));
 
         return $this->render('front/trick.html.twig', array('trick' => $trick, 'comments' => $comments));
+    }
+
+    public function ajaxComments($id, $page)
+    {
+        $offset = $page * $this->getParameter('comments_per_page');
+        $comments = $this->getDoctrine()->getRepository(Comment::class)->findAPage($id, $offset, $this->getParameter('comments_per_page'));
+
+        $commentsData = [];
+        $data = [];
+
+        foreach ($comments as $comment) {
+            $commentData = array(
+              'publicationDate' => $comment->getCreationDate()->format('d-m-Y'),
+              'content' => $comment->getContent(),
+              'user' => array(
+                'name' => $comment->getUser()->getUsername(),
+                'photo' => 'default.png',
+              ),
+            );
+            if ($comment->getUser()->getUserPhoto() !== null) {
+                $commentData['user']['photo'] = $comment->getUser()->getUserPhoto()->getAdress();
+            }
+            $commentsData[] = $commentData;
+        }
+        $data['nbPages'] = $this->getDoctrine()->getRepository(Comment::class)->findNbPages($id, $this->getParameter('comments_per_page'));
+        $data['comments'] = $commentsData;
+
+        $JSONdata =  $this->get('serializer')->serialize($data, 'json');
+
+        $response = new Response($JSONdata);
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 }
