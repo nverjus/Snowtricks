@@ -1,5 +1,7 @@
+LABEL maintainer="nverjus@protonmail.com"
+
 FROM php:7.2-apache
-MAINTAINER Nicolas Verjus
+
 
 WORKDIR /var/www/html
 
