@@ -8,3 +8,9 @@ ajax_tricks:
     condition:    "request.isXmlHttpRequest()"
     requirements:
         page:     '\d+'
+
+trick:
+    path:         /trick-{id}
+    controller:   App\Controller\FrontController:trick
+    requirements:
+        page:     '\d+'

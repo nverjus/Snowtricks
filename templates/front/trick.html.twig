@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ trick.name }}
+  -
+{% endblock %}
+
+{% block body %}
+  <header class="container-fluid d-none d-md-block"></header>
+
+  <div class="container trick-content" id="content">
+    <div class="row trick-front-image">
+      <div class="col-2 offset-10 icons">
+        <div class="d-flex justify-content-around">
+          <div class="col-xs-6">
+            <a href="#" class="trick-action align-middle">
+              <i class="fas fa-pencil-alt"></i>
+            </a>
+          </div>
+          <div class="col-xs-6">
+            <a href="#" class="trick-action align-middle">
+              <i class="far fa-trash-alt"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 front-img">
+        {% if trick.frontPhoto is not null %}
+          <img alt='{{ trick.name }}' src="img/tricks/{{ trick.frontPhoto.adress }}" class="img-fluid">
+        {% else %}
+          <img alt="No photo" src="img/tricks/no-photo.png" class="img-fluid">
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row medias">
+      {% for photo in trick.trickPhotos %}
+        <div class="col-md-2">
+          <img alt='{{ photo.adress }}' src="img/tricks/{{ photo.adress }}" class="img-fluid">
+        </div>
+      {% endfor %}
+      {% for video in trick.videos %}
+        <div class="col-md-2">
+          <div class="embed-responsive embed-responsive-4by3">
+            {{ video.adress|raw }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="d-flex justify-content-center d-block d-md-none ">
+      <button class="btn btn-primary show-medias ">Show medias</button>
+    </div>
+
+    <div class="row trick-description ">
+      <div class="col-md-10 offset-md-1 ">
+        <p>
+          {{ trick.description }}
+        </p>
+      </div>
+    </div>
+
+    <div class="row ">
+      <div class="metas col-md-2 offset-md-3 ">
+        {{ trick.trickGroup.name}}
+      </div>
+      <div class="metas col-md-2 ">
+        Created the
+        {{ trick.creationDate|date('d-m-Y') }}
+      </div>
+      {% if trick.creationDate != trick.updateDate %}
+        <div class="metas col-md-2 ">
+          Edited the
+          {{ trick.updateDate|date('d-m-Y') }}
+        </div>
+      {% endif %}
+    </div>
+    <hr>
+    <form action="#comments " method="post " class="comment-form ">
+      <div class="form-row ">
+        <div class="col-md-4 offset-md-3 ">
+          <input type="text " class="form-control " placeholder="Your comment ">
+        </div>
+        <div class="col-md-2 align-center ">
+          <button type="submit " class="btn btn-primary leave-comment ">Leave a comment</button>
+        </div>
+      </div>
+    </form>
+    <hr>
+    <div class="row comments " id="comments ">
+      {% for comment in comments %}
+        <!--Comment-->
+        <div class="col-md-6 offset-md-3 ">
+          <div class="d-flex justify-content-between comment ">
+            <div class="col-2 user ">
+              {% if comment.user.userPhoto is not null %}
+                <img class="img-fluid rounded-circle " alt="{{ comment.user.username }}" src="img/users/{{ comment.user.userPhoto.adress }}">
+              {% else %}
+                <img class="img-fluid rounded-circle " alt="{{ comment.user.username }}" src="img/users/default.png">
+              {% endif %}
+              <small>{{ comment.user.username }}</small>
+            </div>
+            <div class="col-10 ">
+              <small>Published the
+                {{ comment.creationDate|date('d-m-Y') }}</small>
+              <p>{{ comment.content }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="d-flex justify-content-center ">
+      <button class="btn btn-primary load-more-comments " id="1 ">Load More</button>
+    </div>
+  </div>
+{% endblock %}
