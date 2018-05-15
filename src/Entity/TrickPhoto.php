@@ -17,7 +17,8 @@ class TrickPhoto extends Photo
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Trick")
+    * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="trickPhotos")
+    * @ORM\OneToOne(targetEntity="App\Entity\Trick", inversedBy="frontPhoto", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;

@@ -50,7 +50,7 @@ class Trick
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TrickPhoto", mappedBy="trick", orphanRemoval=true)
+    * @ORM\OneToMany(targetEntity="App\Entity\TrickPhoto", mappedBy="trick")
      */
     private $trickPhotos;
 
@@ -60,9 +60,9 @@ class Trick
     private $videos;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\TrickPhoto", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\TrickPhoto", mappedBy="trick", cascade={"persist", "remove"})
      */
-    private $FrontPhoto;
+    private $frontPhoto;
 
     public function __construct()
     {
@@ -233,12 +233,12 @@ class Trick
 
     public function getFrontPhoto(): ?TrickPhoto
     {
-        return $this->FrontPhoto;
+        return $this->frontPhoto;
     }
 
-    public function setFrontPhoto(?TrickPhoto $FrontPhoto): self
+    public function setFrontPhoto(?TrickPhoto $frontPhoto): self
     {
-        $this->FrontPhoto = $FrontPhoto;
+        $this->frontPhoto = $frontPhoto;
 
         return $this;
     }

@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <header class="container-fluid">
+    <div class="row-header row">
+      <div class="col align-self-end title">
+        <h1>SnowTricks</h1>
+        <p>The snowboarders community</p>
+      </div>
+    </div>
+    <div class="row-header row">
+      <div class="col align-self-end arrow-down">
+        <a href="#content">
+          <i class="fas fa-arrow-down"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container-fluid" id="content">
+    <div class="row tricks">
+      {% for trick in tricks %}
+
+        <div class="col-md-2 trick">
+          <a href="trick.html">
+            {% if trick.frontPhoto is not null %}
+              <img alt="{{ trick.frontPhoto.alt }}" src="img/tricks/{{ trick.frontPhoto.adress }}" class="img-fluid">
+            {% else %}
+              <img alt="No photo" src="img/tricks/no-photo.png" class="img-fluid">
+            {% endif %}
+          </a>
+          <div class="d-flex justify-content-around trick-actions">
+            <div class=" trick-name">
+              <a href="/trick/{{ trick.id }}">{{ trick.name }}</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+  <!-- Load More button -->
+  <div class="d-flex justify-content-center">
+    <button class="btn btn-primary load-more-tricks" id="1">Load More</button>
+  </div>
+  <div class="col align-self-end arrow-up">
+    <a href="#content">
+      <i class="fas fa-arrow-up"></i>
+    </a>
+  </div>
+
+{% endblock %}

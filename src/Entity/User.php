@@ -42,6 +42,11 @@ class User implements UserInterface, \Serializable
      */
     private $userPhoto;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->isActive = true;
@@ -151,6 +156,37 @@ class User implements UserInterface, \Serializable
         $newUser = $userPhoto === null ? null : $this;
         if ($newUser !== $userPhoto->getUser()) {
             $userPhoto->setUser($newUser);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUser(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setCommentGroup($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getCommentGroup() === $this) {
+                $comment->setCommentGroup(null);
+            }
         }
 
         return $this;

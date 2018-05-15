@@ -1,0 +1,229 @@
+body {
+  color: #13293D;
+  font-family: 'Roboto', sans-serif;
+  position: relative;
+}
+
+a {
+  color: #0056b3;
+}
+
+.nav-bottom-item {
+  margin: 0 10% 0 10%;
+}
+
+#bottom-list {
+  width: 100%;
+}
+
+header {
+  background: url(../img/front-image.jpg) no-repeat center fixed;
+  -webkit-background-size: cover;
+  /* pour anciens Chrome et Safari */
+  background-size: cover;
+  /* version standardsée */
+  width: 100%;
+  height: 95vh;
+}
+
+.main-page-header {}
+
+.front-image {
+  width: 100%;
+  height: 95vh;
+}
+
+.row-header {
+  height: 50%;
+}
+
+.title {
+  text-align: center;
+  font-weight: bold;
+  color: white;
+}
+
+.title h1 {
+  font-size: 4em;
+}
+
+.title p {
+  font-size: 2.5em;
+}
+
+.arrow-down, .arrow-up {
+  text-align: right;
+}
+
+.arrow-down a {
+  color: white;
+  margin: 10px;
+  font-size: 2.5em;
+}
+
+.arrow-up a {
+  color: #4943ff;
+  margin: 10px;
+  font-size: 2.5em;
+}
+
+.trick {
+  margin: 20px;
+}
+
+.trick img, .trick-actions {
+  border: solid #E8F1F2 1px;
+  background-color: #E8F1F2;
+}
+
+.trick img {
+  border-bottom: none;
+}
+
+.trick-actions {
+  font-size: 1em;
+  text-align: center;
+}
+
+.trick-icons {
+  font-size: 1em;
+}
+
+.arrow-up {
+  display: none;
+}
+
+footer {
+  padding-bottom: 20px;
+}
+
+small {
+  margin-bottom: 10px;
+}
+
+.trick-content {
+  border: solid #E8F1F2 2px;
+  background-color: white;
+}
+
+.trick-description, .trick-form {
+  margin-top: 45px;
+}
+
+.front-img {
+  padding: 0;
+}
+
+.icons {
+  z-index: 5000;
+  margin-right: 20px;
+  border-radius: 3px;
+  position: relative;
+  bottom: -4vh;
+  margin-top: -4vh;
+}
+
+.icons div {
+  text-align: center;
+  padding: 2px;
+}
+
+.medias {
+  margin: 20px 0 20px 0;
+}
+
+.show-medias, .add-media {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.metas {
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+  margin-top: 10px;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+.comment {
+  border: solid #E8F1F2 1px;
+  margin: 3px;
+  padding: 3px;
+  background-color: #E8F1F2;
+}
+
+.user {
+  text-align: center;
+}
+
+.forms {
+  text-align: center;
+}
+
+form .form-group {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .trick-content {
+    position: relative;
+    bottom: 75vh;
+    margin-bottom: -75vh
+  }
+  .form {
+    border: solid #c6cfd0 1px;
+    margin-top: 60px;
+    padding: 10px 0 10px 0;
+  }
+  .forms {
+    margin-top: 80px;
+    height: 77vh;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .title h1 {
+    font-size: 3em;
+  }
+  .title p {
+    font-size: 1.5em;
+  }
+  #content {
+    margin-bottom: 70px;
+  }
+  .trick-content {
+    position: relative;
+    bottom: 0;
+    margin-bottom: 0;
+  }
+  .medias {
+    display: none;
+  }
+  .medias img, .medias .embed-responsive {
+    margin-bottom: -85px;
+  }
+  .medias div {
+    margin: 20px 0 20px 0;
+  }
+  .metas {
+    width: 60%;
+    margin: 10px auto 0 auto;
+  }
+  .leave-comment {
+    margin-top: 10px;
+    width: 100% text-align: center;
+  }
+  .form {
+    margin-top: 30px;
+    padding: 10px 0 10px 0;
+  }
+  .forms {
+    border: solid #c6cfd0 1px;
+    margin: 20px 10px 0 10px;
+    padding-top: 40px;
+    padding-bottom: 30px;
+    height: 87vh;
+  }
+}
