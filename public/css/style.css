@@ -78,6 +78,9 @@ header {
 
 .trick img {
   border-bottom: none;
+  width: 100%;
+  height: auto;
+  max-height: 20vh;
 }
 
 .trick-actions {

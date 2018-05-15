@@ -34,15 +34,23 @@ class TrickRepository extends ServiceEntityRepository
         ;
     }
 
-    /*
-    public function findOneBySomeField($value): ?Trick
+    /**
+     * @return int Returns hte number of tricks in database
+     */
+
+    public function fingNbPages($tricksPerPage)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $nbTricks = $this->createQueryBuilder('t')
+                        ->select('COUNT(t)')
+                        ->getQuery()
+                        ->getSingleScalarResult();
+
+        $nbPages = (int) $nbTricks/$tricksPerPage;
+        $nbPages = (int) $nbPages;
+        if ($nbTricks%$tricksPerPage != 0) {
+            $nbPages++;
+        }
+
+        return $nbPages;
     }
-    */
 }

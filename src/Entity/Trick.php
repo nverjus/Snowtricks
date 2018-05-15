@@ -62,7 +62,7 @@ class Trick
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\TrickPhoto", mappedBy="trick", cascade={"persist", "remove"})
      */
-    private $frontPhoto;
+    private $frontPhoto = null;
 
     public function __construct()
     {

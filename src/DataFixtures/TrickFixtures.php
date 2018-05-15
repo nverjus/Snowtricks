@@ -89,6 +89,31 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             'description' => 'Un trick réalisé parallelement à la barre, le poid du corps sur l\'arriète pour soulever le pied avant',
             'trickGroup' => $groups[2],
           ),
+          array(
+            'name' => 'Mute',
+            'description' => 'Saisie de la carre frontside de la planche entre les deux pieds avec la main avant',
+            'trickGroup' => $groups[0],
+          ),
+          array(
+            'name' => 'Sad',
+            'description' => 'Saisie de la carre backside de la planche, entre les deux pieds, avec la main avant',
+            'trickGroup' => $groups[0],
+          ),
+          array(
+            'name' => 'Tail Grab',
+            'description' => 'Saisie de la partie arrière de la planche, avec la main arrière',
+            'trickGroup' => $groups[0],
+          ),
+          array(
+            'name' => 'Nose Grab',
+            'description' => 'Saisie de la partie avant de la planche, avec la main avant',
+            'trickGroup' => $groups[0],
+          ),
+          array(
+            'name' => 'Nose slide',
+            'description' => 'Variante du 50-50, le pied avant étant en appui sur la barre',
+            'trickGroup' => $groups[2],
+          ),
         );
 
         foreach ($list as $trickArray) {

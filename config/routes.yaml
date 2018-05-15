@@ -1,3 +1,10 @@
 index:
-    path:       /
-    controller: App\Controller\FrontController::index
+    path:         /
+    controller:   App\Controller\FrontController::index
+
+ajax_tricks:
+    path:         /{page}
+    controller:   App\Controller\FrontController::ajaxTricks
+    condition:    "request.isXmlHttpRequest()"
+    requirements:
+        page:     '\d+'
