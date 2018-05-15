@@ -216,7 +216,8 @@ form .form-group {
   }
   .leave-comment {
     margin-top: 10px;
-    width: 100% text-align: center;
+    width: 100%;
+    text-align: center;
   }
   .form {
     margin-top: 30px;

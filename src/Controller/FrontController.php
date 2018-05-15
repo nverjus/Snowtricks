@@ -48,7 +48,7 @@ class FrontController extends Controller
     public function trick($id)
     {
         $trick = $this->getDoctrine()->getRepository(Trick::class)->find($id);
-        $comments = $tricks = $this->getDoctrine()->getRepository(Comment::class)->findAPage($id, 0, $this->getParameter('comments_per_page'));
+        $comments = $this->getDoctrine()->getRepository(Comment::class)->findAPage($id, 0, $this->getParameter('comments_per_page'));
 
         return $this->render('front/trick.html.twig', array('trick' => $trick, 'comments' => $comments));
     }
