@@ -38,7 +38,7 @@ class TrickRepository extends ServiceEntityRepository
      * @return int Returns hte number of tricks in database
      */
 
-    public function fingNbPages($tricksPerPage)
+    public function findNbPages($tricksPerPage)
     {
         $nbTricks = $this->createQueryBuilder('t')
                         ->select('COUNT(t)')

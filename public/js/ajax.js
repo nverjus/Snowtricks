@@ -28,20 +28,26 @@ $(function() {
 
   $('.load-more-comments').on('click', function() {
     var data;
+    var trickId = $('.comments').attr('id');
+    var page = $('.load-more-comments').attr('id');
+
     $.ajax({
       type: 'GET',
-      url: 'http://localhost/comments.php' + '?id=' + $('.load-more-comments').id,
+      url: '/trick-' + trickId + '/' + page,
       data: data,
       async: true,
       dataType: 'json',
       success: function(data) {
         var comments = '';
-        $.each(data, function(key, comment) {
-          comments = comments + '<div class="col-md-6 offset-md-3"><div class="d-flex justify-content-between comment"><div class="col-2 user"><img class="img-fluid rounded-circle" alt="' + comment["user"]["name"] + '" src="' + comment["user"]["image"] + '"><small>' + comment["user"]["name"] + '</small></div><div class="col-10"><small>Published the ' + comment["publicationDate"] + '</small><p>' + comment["content"] + '</p></div></div></div>';
+        $.each(data['comments'], function(key, comment) {
+          comments = comments + '<div class="col-md-6 offset-md-3"><div class="d-flex justify-content-between comment"><div class="col-2 user"><img class="img-fluid rounded-circle" alt="' + comment["user"]["name"] + '" src="img/users/' + comment["user"]["photo"] + '"><small>' + comment["user"]["name"] + '</small></div><div class="col-10"><small>Published the ' + comment["publicationDate"] + '</small><p>' + comment["content"] + '</p></div></div></div>';
         });
-        $('.load-more-comments').attr('id', $(data).last()[0]['id']);
         $(comments).appendTo('.comments').hide().slideDown("slow");
-
+        page = Number(page) + 1;
+        $('.load-more-comments').attr('id', page);
+        if (page >= data['nbPages']) {
+          $('.load-more-comments').hide();
+        }
       }
     });
   });

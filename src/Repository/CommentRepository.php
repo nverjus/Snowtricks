@@ -19,32 +19,40 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-//    /**
-//     * @return Comment[] Returns an array of Comment objects
-//     */
-    /*
-    public function findByExampleField($value)
+    public function findAPage($trickId, $offset = 1, $commentsPerPage)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+            ->leftJoin('c.trick', 't')
+            ->where('t.id = :trickId')
+            ->setParameter('trickId', $trickId)
             ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+            ->setMaxResults($commentsPerPage)
+            ->setFirstResult($offset)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Comment
+    /**
+     * @return int Returns hte number of comments for a trick in database
+     */
+
+    public function findNbPages($trickId, $commentsPerPage)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $nbComments = $this->createQueryBuilder('c')
+                        ->select('COUNT(t)')
+                        ->leftJoin('c.trick', 't')
+                        ->where('t.id = :trick_id')
+                        ->setParameter('trick_id', $trickId)
+                        ->getQuery()
+                        ->getSingleScalarResult();
+
+        $nbPages = (int) $nbComments/$commentsPerPage;
+        $nbPages = (int) $nbPages;
+        if ($nbComments%$commentsPerPage != 0) {
+            $nbPages++;
+        }
+
+        return $nbPages;
     }
-    */
 }

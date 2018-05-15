@@ -90,27 +90,27 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             'trickGroup' => $groups[2],
           ),
           array(
-            'name' => 'Mute',
+            'name' => 'Mute2',
             'description' => 'Saisie de la carre frontside de la planche entre les deux pieds avec la main avant',
             'trickGroup' => $groups[0],
           ),
           array(
-            'name' => 'Sad',
+            'name' => 'Sad2',
             'description' => 'Saisie de la carre backside de la planche, entre les deux pieds, avec la main avant',
             'trickGroup' => $groups[0],
           ),
           array(
-            'name' => 'Tail Grab',
+            'name' => 'Tail Grab2',
             'description' => 'Saisie de la partie arrière de la planche, avec la main arrière',
             'trickGroup' => $groups[0],
           ),
           array(
-            'name' => 'Nose Grab',
+            'name' => 'Nose Grab2',
             'description' => 'Saisie de la partie avant de la planche, avec la main avant',
             'trickGroup' => $groups[0],
           ),
           array(
-            'name' => 'Nose slide',
+            'name' => 'Nose slide2',
             'description' => 'Variante du 50-50, le pied avant étant en appui sur la barre',
             'trickGroup' => $groups[2],
           ),

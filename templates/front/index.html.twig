@@ -22,16 +22,17 @@
       {% for trick in tricks %}
 
         <div class="col-md-2 trick">
-          <a href="trick.html">
+          <a href="{{ path('trick', {'id': trick.id}) }}">
             {% if trick.frontPhoto is not null %}
-              <img alt="{{ trick.frontPhoto.alt }}" src="img/tricks/{{ trick.frontPhoto.adress }}" class="img-fluid">
+              <img alt="{{ trick.name }}" src="img/tricks/{{ trick.frontPhoto.adress }}" class="img-fluid">
             {% else %}
-              <img alt="No photo" src="img/tricks/no-photo.png" class="img-fluid">
+              <img alt="{{ trick.name }}" src="img/tricks/no-photo.png" class="img-fluid">
             {% endif %}
           </a>
           <div class="d-flex justify-content-around trick-actions">
             <div class=" trick-name">
-              <a href="/trick/{{ trick.id }}">{{ trick.name }}</a>
+              <a href="{{ path('trick', {'id': trick.id}) }}">
+                {{ trick.name }}</a>
             </div>
           </div>
         </div>

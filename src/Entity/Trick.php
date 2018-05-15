@@ -19,7 +19,7 @@ class Trick
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $name;
 
@@ -60,7 +60,7 @@ class Trick
     private $videos;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\TrickPhoto", mappedBy="trick", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\TrickPhoto", cascade={"persist", "remove"})
      */
     private $frontPhoto = null;
 

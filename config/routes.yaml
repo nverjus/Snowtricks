@@ -1,10 +1,24 @@
 index:
     path:         /
-    controller:   App\Controller\FrontController::index
+    defaults: { _controller: 'App\Controller\FrontController::index' }
 
 ajax_tricks:
     path:         /{page}
-    controller:   App\Controller\FrontController::ajaxTricks
+    defaults: { _controller: 'App\Controller\FrontController::ajaxTricks' }
     condition:    "request.isXmlHttpRequest()"
     requirements:
+        page:     '\d+'
+
+trick:
+    path:         /trick-{id}
+    defaults: { _controller: 'App\Controller\FrontController::trick' }
+    requirements:
+        id:       '\d+'
+
+ajax_comments:
+    path:         /trick-{id}/{page}
+    defaults: { _controller: 'App\Controller\FrontController::ajaxComments' }
+    condition:    "request.isXmlHttpRequest()"
+    requirements:
+        id:       '\d+'
         page:     '\d+'

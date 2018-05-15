@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrickPhotoRepository")
  */
-class TrickPhoto extends Photo
+class TrickPhoto
 {
     /**
      * @ORM\Id()
@@ -17,8 +17,12 @@ class TrickPhoto extends Photo
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $adress;
+
+    /**
     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="trickPhotos")
-    * @ORM\OneToOne(targetEntity="App\Entity\Trick", inversedBy="frontPhoto", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;
@@ -26,6 +30,17 @@ class TrickPhoto extends Photo
     public function getId()
     {
         return $this->id;
+    }
+    public function getAdress(): ?string
+    {
+        return $this->adress;
+    }
+
+    public function setAdress(string $adress): self
+    {
+        $this->adress = $adress;
+
+        return $this;
     }
 
     public function getTrick(): ?Trick

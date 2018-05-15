@@ -15,7 +15,6 @@ class UserPhotoFixtures extends Fixture implements DependentFixtureInterface
         $admin = $manager->getRepository(User::class)->findOneBy(array('username' => 'admin'));
 
         $photo = new UserPhoto();
-        $photo->setAlt('Admin');
         $photo->setAdress('admin.png');
         $photo->setUser($admin);
         $manager->persist($photo);

@@ -21,7 +21,6 @@ class TrickPhotoFixtures extends Fixture implements DependentFixtureInterface
                 foreach ($grabs as $grab) {
                     $photo = new TrickPhoto();
                     $photo->setAdress($grab);
-                    $photo->setAlt('Grab');
                     $photo->setTrick($trick);
                     $manager->persist($photo);
                     if ($grab == 'grab1.jpg') {
@@ -32,7 +31,6 @@ class TrickPhotoFixtures extends Fixture implements DependentFixtureInterface
                 foreach ($flips as $flip) {
                     $photo = new TrickPhoto();
                     $photo->setAdress($flip);
-                    $photo->setAlt('Flip');
                     $photo->setTrick($trick);
                     $manager->persist($photo);
                     if ($flip == 'flip1.jpg') {

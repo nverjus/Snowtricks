@@ -18,11 +18,11 @@
     <nav class="navbar navbar-light bg-light navbar-expand d-none d-md-block">
       <div class="container-fluid">
         <div class="navbar-header ">
-          <a class="navbar-brand" href="/">SnowTricks</a>
+          <a class="navbar-brand" href="{{ path('index') }}">SnowTricks</a>
         </div>
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="{{ path('index') }}">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Sign in</a>
@@ -50,7 +50,7 @@
       <div class="container-fluid">
         <ul class="navbar-nav d-flex justify-content-around" id="bottom-list">
           <li class="nav-item nav-bottom-item">
-            <a class="nav-link" href="/">
+            <a class="nav-link" href="{{ path('index') }}">
               <i class="fas fa-home"></i>
             </a>
           </li>
