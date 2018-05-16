@@ -1,21 +1,6 @@
-version:                          "2"
+version:   "2"
 
 services:
   server:
-    build:                        docker/.
-    ports:
-      - "8080:80"
-    volumes:
-      - ".:/var/www/html"
   mysql:
-    image:                        mysql:5.7
-    environment:
-      MYSQL_DATABASE:             'snowtricks'
-      MYSQL_USER:                 'snowtricks'
-      MYSQL_PASSWORD:             'snowtricks'
-      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
-    volumes:
-      - "db:/var/lib/mysql"
-
-volumes:
-  db:
+    image: mysql:5.7

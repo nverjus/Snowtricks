@@ -71,7 +71,7 @@ class FrontController extends Controller
               'notice',
               'Your comment has been saved'
             );
-            return $this->redirectToRoute('trick', array('id' => $id));
+            return $this->redirect($this->generateUrl('trick', array('id' => $id)).'#comment-form');
         }
 
         return $this->render('front/trick.html.twig', array(

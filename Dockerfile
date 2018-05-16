@@ -6,7 +6,7 @@ LABEL maintainer="nverjus@protonmail.com"
 WORKDIR /var/www/html
 
 RUN apt-get update && \
-     apt-get install -y --no-install-recommends git=1:2.11.0-3+deb9u2 zip=3.0-11+b1 && \
+     apt-get install -y --no-install-recommends git=1:2.11.0-3+deb9u2 zlib1g-dev && \
      apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
@@ -14,9 +14,9 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php \
     && php -r "unlink('composer-setup.php');"
 RUN mv composer.phar /usr/bin/composer && chmod +x /usr/bin/composer
-RUN docker-php-ext-install pdo_mysql opcache
-COPY ./000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY php.ini /etc/php/7.2/apache2/php.ini
+RUN docker-php-ext-install pdo_mysql opcache zip acpu xdebug
+COPY docker/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY docker/php.ini /etc/php/7.2/apache2/php.ini
 RUN a2enmod rewrite
 EXPOSE 80
 
