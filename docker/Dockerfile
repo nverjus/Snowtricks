@@ -1,7 +1,7 @@
-LABEL maintainer="nverjus@protonmail.com"
-
 FROM php:7.2-apache
 
+MAINTAINER "nverjus@protonmail.com"
+LABEL maintainer="nverjus@protonmail.com"
 
 WORKDIR /var/www/html
 

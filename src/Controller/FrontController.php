@@ -5,8 +5,11 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Trick;
 use App\Entity\Comment;
+use App\Form\CommentType;
+use App\Entity\User;
 
 class FrontController extends Controller
 {
@@ -45,12 +48,37 @@ class FrontController extends Controller
         return $response;
     }
 
-    public function trick($id)
+    public function trick($id, Request $request)
     {
         $trick = $this->getDoctrine()->getRepository(Trick::class)->find($id);
         $comments = $this->getDoctrine()->getRepository(Comment::class)->findAPage($id, 0, $this->getParameter('comments_per_page'));
 
-        return $this->render('front/trick.html.twig', array('trick' => $trick, 'comments' => $comments));
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager = $this->getDoctrine()->getManager();
+
+            $comment = $form->getData();
+            $comment->setTrick($trick);
+            $comment->setUser($manager->getRepository(User::class)->findOneBy(array('username' => 'admin')));
+
+            $manager->persist($comment);
+            $manager->flush();
+
+            $this->addFlash(
+              'notice',
+              'Your comment has been saved'
+            );
+            return $this->redirectToRoute('trick', array('id' => $id));
+        }
+
+        return $this->render('front/trick.html.twig', array(
+          'trick' => $trick,
+          'comments' => $comments,
+          'form' => $form->createView(),
+        ));
     }
 
     public function ajaxComments($id, $page)

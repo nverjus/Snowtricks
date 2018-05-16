@@ -74,16 +74,30 @@
       {% endif %}
     </div>
     <hr>
-    <form action="#comments " method="post " class="comment-form ">
-      <div class="form-row ">
-        <div class="col-md-4 offset-md-3 ">
-          <input type="text " class="form-control " placeholder="Your comment ">
+    <div id="comment-form">
+      {% for message in app.flashes('notice') %}
+        <div class="row">
+          <div class="col-md-6 offset-md-3 ">
+            <div class="alert alert-success">
+              {{ message }}
+            </div>
+          </div>
         </div>
+      {% endfor %}
+      {{ form_start(form) }}
+      <div class="form-row ">
+        {{ form_errors(form) }}
+        <div class="col-md-4 offset-md-3 ">
+          {{ form_errors(form.content) }}
+          {{ form_widget(form.content, {'attr': {'placeholder': 'Your comment'}}) }}
+        </div>
+
         <div class="col-md-2 align-center ">
           <button type="submit " class="btn btn-primary leave-comment ">Leave a comment</button>
         </div>
       </div>
-    </form>
+      {{ form_end(form) }}
+    </div>
     <hr>
     <div class="row comments " id="{{ trick.id }}">
       {% for comment in comments %}
