@@ -19,7 +19,7 @@ class Comment
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message=The comment cannot be empty)
+     * @Assert\NotBlank(message="The comment cannot be empty")
      */
     private $content;
 
