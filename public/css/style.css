@@ -135,6 +135,11 @@ small {
   margin: 20px 0 20px 0;
 }
 
+.medias .col-md-2 {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
 .medias img {
   cursor: pointer;
 }

@@ -68,8 +68,8 @@ class FrontController extends Controller
             $manager->flush();
 
             $this->addFlash(
-              'notice',
-              'Your comment has been saved'
+              'comment-notice',
+              'The trick has been edited'
             );
             return $this->redirect($this->generateUrl('trick', array('id' => $id)).'#comment-form');
         }

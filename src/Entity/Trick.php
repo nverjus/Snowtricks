@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrickRepository")
@@ -19,12 +20,22 @@ class Trick
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=25, unique=true)
+     * @Assert\NotBlank(message = "The trick must have a namespace")
+     * @Assert\Length(min = 4,
+     *               minMessage = "The name must have at least 4 characters",
+     *               max = 25,
+     *               maxMessage = "The name can't have more than 50 characters"
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message = "The trick must have a namespace")
+     * @Assert\Length(min = 20,
+     *               minMessage = "The description must have at least 20 characters"
+     * )
      */
     private $description;
 

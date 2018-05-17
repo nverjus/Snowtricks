@@ -42,7 +42,7 @@
       {% for photo in trick.trickPhotos %}
         <div class="col-md-2">
           <div class="row">
-            <img alt='{{ trick.name }}' src="img/tricks/{{ photo.adress }}" class="img-fluid">
+            <img alt='{{ photo.adress }}' src="img/tricks/{{ photo.adress }}" class="img-fluid" data-toggle="modal" data-target="#modal-photo-{{ photo.id }}">
           </div>
           <div class="col-6 offset-6">
             <div class="row">
@@ -65,19 +65,17 @@
           <div class="embed-responsive embed-responsive-4by3">
             {{ video.iframe|raw }}
           </div>
-          <div class="row edit-icon">
-            <div class="col-6 offset-6 icons">
-              <div class="d-flex justify-content-around">
-                <div class="col-6">
-                  <a class="trick-action align-middle" data-toggle="modal" data-target="#videoModal">
-                    <i class="fas fa-pencil-alt"></i>
-                  </a>
-                </div>
-                <div class="col-6">
-                  <a href="#" class="trick-action align-middle">
-                    <i class="far fa-trash-alt"></i>
-                  </a>
-                </div>
+          <div class="col-6 offset-6">
+            <div class="row">
+              <div class="col-6">
+                <a href="#" class="trick-action align-middle">
+                  <i class="fas fa-pencil-alt"></i>
+                </a>
+              </div>
+              <div class="col-6">
+                <a class="trick-action align-middle">
+                  <i class="far fa-trash-alt"></i>
+                </a>
               </div>
             </div>
           </div>
@@ -103,14 +101,14 @@
             {{ form_widget(trickForm.description, { 'attr': { 'placeholder': 'Trick description', 'rows': 8 }}
             )}}
           </div>
-          <div class="col-md-2 col-6 form-group">
+          <div class="col-md-2 col-6 offset-6 form-group">
             {{ form_errors(trickForm.trickGroup) }}
             {{ form_widget(trickForm.trickGroup) }}
           </div>
-          <div class="col-md-2 offset-md-4 col-3 offset-9 form-group">
+          <div class="col-md-2 offset-md-4 col-4 offset-1 form-group">
             <button type="button" class="form-control btn btn-danger" data-toggle="modal" data-target="#delTrick">Delete</button>
           </div>
-          <div class="col-md-2 offset-md-0 col-3 offset-9 form-group">
+          <div class="col-md-2 offset-md-0 col-4 offset-1 form-group">
             <button type="submit" class="form-control btn btn-primary">Save</button>
           </div>
         </div>
@@ -119,7 +117,6 @@
     </div>
   </div>
   <!-- Delete trick modal -->
-  <!-- Modal -->
   <div class="modal fade" id="delTrick" tabindex="-1" role="dialog" aria-labelledby="DelTrickLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -139,4 +136,21 @@
       </div>
     </div>
   </div>
+  <!-- Photo modals -->
+  {% for photo in trick.trickPhotos %}
+    <div class="modal fade" id="modal-photo-{{ photo.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <img src="img/tricks/{{photo.adress }}" class="img-fluid">
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
 {% endblock %}
