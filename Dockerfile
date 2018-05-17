@@ -18,6 +18,7 @@ RUN docker-php-ext-install pdo_mysql opcache zip
 COPY docker/000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY docker/php.ini /etc/php/7.2/apache2/php.ini
 RUN a2enmod rewrite
+RUN chmod -R 777 ./
 EXPOSE 80
 
 CMD apache2-foreground
