@@ -135,6 +135,10 @@ small {
   margin: 20px 0 20px 0;
 }
 
+.medias img {
+  cursor: pointer;
+}
+
 .show-medias, .add-media {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -203,9 +207,6 @@ form .form-group {
   }
   .medias {
     display: none;
-  }
-  .medias img, .medias .embed-responsive {
-    margin-bottom: -85px;
   }
   .medias div {
     margin: 20px 0 20px 0;

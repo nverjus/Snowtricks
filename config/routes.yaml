@@ -22,3 +22,9 @@ ajax_comments:
     requirements:
         id:       '\d+'
         page:     '\d+'
+
+edit_trick:
+  path:           /trick-edit-{id}
+  defaults: { _controller: 'App\Controller\BackController::editTrick' }
+  requirements:
+    id:           '\d+'
