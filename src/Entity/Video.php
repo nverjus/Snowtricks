@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Validator\Iframe;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VideoRepository")
@@ -18,8 +19,9 @@ class Video
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Iframe()
      */
-    private $adress;
+    private $iframe;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="videos")
@@ -32,14 +34,14 @@ class Video
         return $this->id;
     }
 
-    public function getAdress(): ?string
+    public function getIframe(): ?string
     {
-        return $this->adress;
+        return $this->iframe;
     }
 
-    public function setAdress(string $adress): self
+    public function setIframe(string $iframe): self
     {
-        $this->adress = $adress;
+        $this->iframe = $iframe;
 
         return $this;
     }

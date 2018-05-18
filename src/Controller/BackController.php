@@ -1,0 +1,91 @@
+<?php
+
+namespace App\Controller;
+
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use App\Service\ImageUploader;
+use App\Entity\Trick;
+use App\Entity\TrickPhoto;
+use App\Entity\Video;
+use App\Form\TrickType;
+use App\Form\TrickPhotoType;
+
+class BackController extends Controller
+{
+    public function editTrick(Trick $trick, Request $request, ImageUploader $imageUploader)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $trickPhotos = $trick->getTrickPhotos();
+        $trick->resetTrickPhotos();
+        $videos = $trick->getVideos();
+        $trick->resetVideos();
+
+        $trickForm = $this->createForm(TrickType::class, $trick);
+        $trickForm->handleRequest($request);
+
+        if ($trickForm->isSubmitted() && $trickForm->isValid()) {
+            $trick = $trickForm->getData();
+            $trick->setUpdateDate(new \DateTime());
+            // Photos management
+            foreach ($trick->getTrickPhotos() as $photo) {
+                if ($photo->getAdress() !== null) {
+                    $filename = $imageUploader->upload($photo->getAdress(), $this->getParameter('tricks_photos_directory'));
+                    $photo->setAdress($filename);
+                    $photo->setTrick($trick);
+                } elseif ($photo->getAdress() === null) {
+                    $trick->removeTrickPhoto($photo);
+                }
+            }
+            foreach ($trickPhotos as $photo) {
+                $trick->addTrickPhoto($photo);
+            }
+            // Videos management
+            foreach ($trick->getVideos() as $video) {
+                if ($video->getIframe() !== null) {
+                    $video->setTrick($trick);
+                } elseif ($video->getIframe() === null) {
+                    $trick->removeVideo($video);
+                }
+            }
+            foreach ($videos as $video) {
+                $trick->addVideo($video);
+            }
+
+            $manager->persist($trick);
+            $manager->flush();
+
+            $this->addFlash(
+              'trick-notice',
+              'The trick has been saved'
+            );
+            return $this->redirect($this->generateUrl('trick', array('id' => $trick->getId())).'#content');
+        }
+
+
+        $frontPhoto = new TrickPhoto();
+        $frontPhotoForm = $this->createForm(TrickPhotoType::class, $frontPhoto);
+        $frontPhotoForm->handleRequest($request);
+
+        if ($frontPhotoForm->isSubmitted() && $frontPhotoForm->isValid()) {
+            $fileName = $imageUploader->upload($frontPhoto->getAdress(), $this->getParameter('tricks_photos_directory'));
+            $frontPhoto->setAdress($fileName);
+            $trick->setFrontPhoto($frontPhoto);
+
+            $manager->persist($trick);
+            $manager->flush();
+
+            $this->addFlash('trick-notice', 'Front Photo added');
+            return $this->redirect($this->generateUrl('trick', array('id' => $trick->getId())).'#content');
+        }
+        $trick->setTrickPhotos($trickPhotos);
+        $trick->setVideos($videos);
+
+        return $this->render('back/editTrick.html.twig', array(
+          'trick' => $trick,
+          'trickForm' => $trickForm->createView(),
+          'frontPhotoForm' => $frontPhotoForm->createView(),
+        ));
+    }
+}

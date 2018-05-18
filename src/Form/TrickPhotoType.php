@@ -2,25 +2,28 @@
 
 namespace App\Form;
 
-use App\Entity\Comment;
+use App\Entity\TrickPhoto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\Image;
 
-class CommentType extends AbstractType
+class TrickPhotoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('content', TextType::class, array('translation_domain' => false))
+            ->add('adress', FileType::class, array(
+              'constraints' => new Image(),
+            ))
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Comment::class,
+            'data_class' => TrickPhoto::class,
         ]);
     }
 }
