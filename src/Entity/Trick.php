@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Iframe;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrickRepository")
@@ -61,12 +62,12 @@ class Trick
     private $comments;
 
     /**
-    * @ORM\OneToMany(targetEntity="App\Entity\TrickPhoto", mappedBy="trick")
+    * @ORM\OneToMany(targetEntity="App\Entity\TrickPhoto", mappedBy="trick", cascade={"persist", "remove"})
      */
     private $trickPhotos;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", cascade={"persist", "remove"})
      */
     private $videos;
 
@@ -180,10 +181,8 @@ class Trick
         return $this;
     }
 
-    /**
-     * @return Collection|TrickPhoto[]
-     */
-    public function getTrickPhotos(): Collection
+
+    public function getTrickPhotos()
     {
         return $this->trickPhotos;
     }
@@ -206,8 +205,23 @@ class Trick
             if ($trickPhoto->getTrick() === $this) {
                 $trickPhoto->setTrick(null);
             }
+            if ($this->frontPhoto === $trickPhoto) {
+                $this->frontPhoto = null;
+            }
         }
 
+        return $this;
+    }
+
+    public function resetTrickPhotos()
+    {
+        $this->trickPhotos = new ArrayCollection();
+        return $this;
+    }
+
+    public function setTrickPhotos($trickPhotos): self
+    {
+        $this->trickPhotos = $trickPhotos;
         return $this;
     }
 
@@ -242,6 +256,18 @@ class Trick
         return $this;
     }
 
+    public function resetVideos()
+    {
+        $this->videos = new ArrayCollection();
+        return $this;
+    }
+
+    public function setVideos($videos): self
+    {
+        $this->videos = $videos;
+        return $this;
+    }
+
     public function getFrontPhoto(): ?TrickPhoto
     {
         return $this->frontPhoto;
@@ -250,6 +276,7 @@ class Trick
     public function setFrontPhoto(?TrickPhoto $frontPhoto): self
     {
         $this->frontPhoto = $frontPhoto;
+        $this->frontPhoto->setTrick($this);
 
         return $this;
     }

@@ -136,8 +136,7 @@ small {
 }
 
 .medias .col-md-2 {
-  margin-left: 5px;
-  margin-right: 5px;
+  margin: 5px 5px 5px 5px;
 }
 
 .medias img {
@@ -178,6 +177,10 @@ form .form-group {
   margin-bottom: 20px;
 }
 
+.custom-file-input~.custom-file-label::after {
+  content: "Browse";
+}
+
 @media screen and (min-width: 768px) {
   .trick-content {
     position: relative;
@@ -193,6 +196,10 @@ form .form-group {
     margin-top: 80px;
     height: 77vh;
   }
+}
+
+legend {
+  display: none;
 }
 
 @media screen and (max-width: 768px) {
