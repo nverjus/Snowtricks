@@ -26,7 +26,7 @@ class TrickRepository extends ServiceEntityRepository
     public function findAPage($offset = 1, $tricksPerPage)
     {
         return $this->createQueryBuilder('t')
-            ->orderBy('t.id', 'ASC')
+            ->orderBy('t.id', 'DESC')
             ->setMaxResults($tricksPerPage)
             ->setFirstResult($offset)
             ->getQuery()

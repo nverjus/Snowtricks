@@ -23,13 +23,16 @@ class TrickType extends AbstractType
                   'translation_domain' => false,
                   'entry_type'   => TrickPhotoType::class,
                   'allow_add'    => true,
-                  'allow_delete' => true
+                  'allow_delete' => true,
+                  'required'     => false,
             ))
             ->add('videos', CollectionType::class, array(
                   'entry_type'   => VideoType::class,
                   'allow_add'    => true,
                   'allow_delete' => true,
                   'translation_domain' => false,
+                  'required'     => false,
+
             ))
             ->add('name', TextType::class, array('translation_domain' => false))
             ->add('description', TextareaType::class, array('translation_domain' => false))

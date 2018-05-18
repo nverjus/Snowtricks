@@ -18,6 +18,15 @@
   </header>
 
   <div class="container-fluid" id="content">
+    {% for message in app.flashes('trick-notice') %}
+      <div class="row">
+        <div class="col-md-6 offset-md-3 ">
+          <div class="alert alert-success">
+            {{ message }}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
     <div class="row tricks">
       {% for trick in tricks %}
 
@@ -33,6 +42,16 @@
             <div class=" trick-name">
               <a href="{{ path('trick', {'id': trick.id}) }}">
                 {{ trick.name }}</a>
+            </div>
+            <div class="col-2">
+              <a href="{{ path('edit_trick', {'id': trick.id}) }}" class="trick-icons">
+                <i class="fas fa-pencil-alt"></i>
+              </a>
+            </div>
+            <div class="col-2">
+              <a href="#" class="trick-icons">
+                <i class="far fa-trash-alt"></i>
+              </a>
             </div>
           </div>
         </div>
