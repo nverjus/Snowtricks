@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add a trick -
+{% endblock %}
+
+{% block body %}
+  <div class="container" id="content">
+
+    <div class="row trick-form">
+      <div class="col-md-8 offset-md-2">
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+        <div class="row">
+          <div class="col-md-8">
+            <h4>Photos</h4>
+          </div>
+          <div class="col-md-8 form-group">
+            {{ form_errors(form.trickPhotos) }}
+            {{ form_widget(form.trickPhotos) }}
+          </div>
+          <div class="col-4">
+            <a href="#" id="add_photo" class="btn btn-primary">Add another photo</a>
+          </div>
+          <div class="col-md-8">
+            <h4>Videos</h4>
+          </div>
+          <div class="col-md-8 form-group">
+            {{ form_errors(form.videos) }}
+            {{ form_widget(form.videos) }}
+          </div>
+          <div class="col-4">
+            <a href="#" id="add_video" class="btn btn-primary">Add another video</a>
+          </div>
+          <div class="col-md-8 form-group">
+            {{ form_errors(form.name) }}
+            {{ form_widget(form.name, {'attr': {'placeholder': 'Trick name'}}) }}
+          </div>
+          <div class="col-md-12 form-group">
+            {{ form_errors(form.description) }}
+            {{ form_widget(form.description, { 'attr': { 'placeholder': 'Trick description', 'rows': 8 }}
+            )}}
+          </div>
+          <div class="col-md-2 col-6 offset-6 form-group">
+            {{ form_errors(form.trickGroup) }}
+            {{ form_widget(form.trickGroup) }}
+          </div>
+          <div class="col-md-2 offset-md-4 col-4 offset-1 form-group">
+            <button type="button" class="form-control btn btn-danger" data-toggle="modal" data-target="#delTrick">Delete</button>
+          </div>
+          <div class="col-md-2 offset-md-0 col-4 offset-1 form-group">
+            <button type="submit" class="form-control btn btn-primary">Save</button>
+          </div>
+        </div>
+        {{form_rest(form) }}
+        {{ form_end(form) }}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

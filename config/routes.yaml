@@ -28,3 +28,7 @@ edit_trick:
   defaults: { _controller: 'App\Controller\BackController::editTrick' }
   requirements:
     id:           '\d+'
+
+add_trick:
+  path:           /trick-add
+  defaults: { _controller: 'App\Controller\BackController::addTrick' }

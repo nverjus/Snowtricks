@@ -22,7 +22,7 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
-     * @Assert\NotBlank(message = "The trick must have a namespace")
+     * @Assert\NotBlank(message = "The trick must have a name")
      * @Assert\Length(min = 4,
      *               minMessage = "The name must have at least 4 characters",
      *               max = 25,
@@ -33,7 +33,7 @@ class Trick
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(message = "The trick must have a namespace")
+     * @Assert\NotBlank(message = "The trick must have a description")
      * @Assert\Length(min = 20,
      *               minMessage = "The description must have at least 20 characters"
      * )

@@ -88,4 +88,50 @@ class BackController extends Controller
           'frontPhotoForm' => $frontPhotoForm->createView(),
         ));
     }
+
+    public function addTrick(Request $request, ImageUploader $imageUploader)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $trick = new Trick();
+
+        $form = $this->createForm(TrickType::class, $trick);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $trick = $form->getData();
+            $trick->setUpdateDate(new \DateTime());
+            // Photos management
+            foreach ($trick->getTrickPhotos() as $photo) {
+                if ($photo->getAdress() !== null) {
+                    $filename = $imageUploader->upload($photo->getAdress(), $this->getParameter('tricks_photos_directory'));
+                    $photo->setAdress($filename);
+                    $photo->setTrick($trick);
+                } elseif ($photo->getAdress() === null) {
+                    $trick->removeTrickPhoto($photo);
+                }
+                $trick->setFrontPhoto($trick->getTrickPhotos()[0]);
+            }
+            // Videos management
+            foreach ($trick->getVideos() as $video) {
+                if ($video->getIframe() !== null) {
+                    $video->setTrick($trick);
+                } elseif ($video->getIframe() === null) {
+                    $trick->removeVideo($video);
+                }
+            }
+
+            $manager->persist($trick);
+            $manager->flush();
+
+            $this->addFlash(
+              'trick-notice',
+              'The trick has been saved'
+            );
+            return $this->redirect($this->generateUrl('index').'#content');
+        }
+
+        return $this->render('back/addTrick.html.twig', array(
+          'form' => $form->createView(),
+        ));
+    }
 }
