@@ -8,8 +8,10 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Service\ImageUploader;
 use App\Entity\Trick;
 use App\Entity\TrickPhoto;
+use App\Entity\Video;
 use App\Form\TrickType;
 use App\Form\TrickPhotoType;
+use App\Form\VideoType;
 
 class BackController extends Controller
 {
@@ -52,11 +54,24 @@ class BackController extends Controller
             return $this->redirect($this->generateUrl('trick', array('id' => $id)).'#content');
         }
 
+        $video = new Video();
+        $videoForm = $this->createForm(VideoType::class, $video);
+        $videoForm->handleRequest($request);
+
+        if ($videoForm->isSubmitted() && $videoForm->isValid()) {
+            $video->setTrick($trick);
+            $manager->persist($video);
+            $manager->flush();
+
+            $this->addFlash('trick-notice', 'Video added');
+            return $this->redirect($this->generateUrl('trick', array('id' => $id)).'#content');
+        }
 
         return $this->render('back/editTrick.html.twig', array(
           'trick' => $trick,
           'trickForm' => $trickForm->createView(),
-          'photoForm' => $photoForm->createView()
+          'photoForm' => $photoForm->createView(),
+          'videoForm' => $videoForm->createView()
         ));
     }
 }

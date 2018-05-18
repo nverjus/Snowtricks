@@ -48,10 +48,9 @@ class FrontController extends Controller
         return $response;
     }
 
-    public function trick($id, Request $request)
+    public function trick(Trick $trick, Request $request)
     {
-        $trick = $this->getDoctrine()->getRepository(Trick::class)->find($id);
-        $comments = $this->getDoctrine()->getRepository(Comment::class)->findAPage($id, 0, $this->getParameter('comments_per_page'));
+        $comments = $this->getDoctrine()->getRepository(Comment::class)->findAPage($trick->getId(), 0, $this->getParameter('comments_per_page'));
 
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
@@ -71,7 +70,7 @@ class FrontController extends Controller
               'comment-notice',
               'The trick has been edited'
             );
-            return $this->redirect($this->generateUrl('trick', array('id' => $id)).'#comment-form');
+            return $this->redirect($this->generateUrl('trick', array('id' => $trick->getId())).'#comment-form');
         }
 
         return $this->render('front/trick.html.twig', array(

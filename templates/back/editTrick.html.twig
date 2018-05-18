@@ -37,6 +37,7 @@
 
     <div class="d-flex justify-content-center">
       <button type="button" class="btn btn-primary add-media" data-toggle="modal" data-target="#addPhoto">Add a photo</button>
+      <button type="button" class="btn btn-primary add-media" data-toggle="modal" data-target="#addVideo">Add a video</button>
     </div>
     <div class="row medias">
       {% for photo in trick.trickPhotos %}
@@ -121,7 +122,7 @@
       </div>
     </div>
   </div>
-  <!-- Modal -->
+  <!-- Add photo Modal -->
   <div class="modal fade" id="addPhoto" tabindex="-1" role="dialog" aria-labelledby="addPhotoLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -143,6 +144,31 @@
           <button type="submit" class="btn btn-primary">Add Photo</button>
         </div>
         {{ form_end(photoForm) }}
+      </div>
+    </div>
+  </div>
+  <!-- Add photo Modal -->
+  <div class="modal fade" id="addVideo" tabindex="-1" role="dialog" aria-labelledby="addPhotoLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addPhotoLabel">Add a photo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {{ form_start(videoForm) }}
+        <div class="modal-body">
+          {{ form_errors(videoForm ) }}
+          {{ form_errors(videoForm.iframe) }}
+          {{ form_widget(videoForm.iframe) }}
+          {{ form_rest(videoForm) }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Add Video</button>
+        </div>
+        {{ form_end(videoForm) }}
       </div>
     </div>
   </div>

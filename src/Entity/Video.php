@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Validator\Iframe;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VideoRepository")
@@ -18,6 +19,7 @@ class Video
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Iframe()
      */
     private $iframe;
 
