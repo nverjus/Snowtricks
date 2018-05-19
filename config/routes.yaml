@@ -1,40 +1,46 @@
 index:
-    path:         /
+    path:            /
     defaults: { _controller: 'App\Controller\FrontController::index' }
 
 ajax_tricks:
-    path:         /{page}
+    path:            /{page}
     defaults: { _controller: 'App\Controller\FrontController::ajaxTricks' }
-    condition:    "request.isXmlHttpRequest()"
+    condition:       "request.isXmlHttpRequest()"
     requirements:
-        page:     '\d+'
+        page:        '\d+'
 
 trick:
-    path:         /trick-{id}
+    path:            /trick-{id}
     defaults: { _controller: 'App\Controller\FrontController::trick' }
     requirements:
-        id:       '\d+'
+        id:          '\d+'
 
 ajax_comments:
-    path:         /trick-{id}/{page}
+    path:            /trick-{id}/{page}
     defaults: { _controller: 'App\Controller\FrontController::ajaxComments' }
-    condition:    "request.isXmlHttpRequest()"
+    condition:       "request.isXmlHttpRequest()"
     requirements:
-        id:       '\d+'
-        page:     '\d+'
+        id:          '\d+'
+        page:        '\d+'
 
 edit_trick:
-  path:           /trick-edit-{id}
+  path:              /trick-edit-{id}
   defaults: { _controller: 'App\Controller\BackController::editTrick' }
   requirements:
-    id:           '\d+'
+    id:              '\d+'
 
 add_trick:
-  path:           /trick-add
+  path:              /trick-add
   defaults: { _controller: 'App\Controller\BackController::addTrick' }
 
 delete_video:
-  path:           /delete-video-{id}
+  path:              /video-delete-{id}
   defaults: { _controller: 'App\Controller\BackController::deleteVideo' }
   requirements:
-    id:           '\d+'
+    id:              '\d+'
+
+delete_trick_photo:
+  path:              /trick-photo-delete-{id}
+  defaults: { _controller: 'App\Controller\BackController::deleteTrickPhoto' }
+  requirements:
+    id:              '\d+'

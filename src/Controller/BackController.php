@@ -138,10 +138,33 @@ class BackController extends Controller
     public function deleteVideo(Video $video)
     {
         $manager = $this->getDoctrine()->getManager();
-        $trickId = $video->getTrick()->getId();
         $manager->remove($video);
         $manager->flush();
 
-        return $this->redirect($this->generateUrl('index').'#content');
+        $this->addFlash(
+          'notice',
+          'The video has been deleted'
+        );
+
+        return $this->redirect($this->generateUrl('edit_trick', array('id' => $video->getTrick()->getId())).'#content');
+    }
+
+    public function deleteTrickPhoto($id, ImageUploader $imageUploader)
+    {
+        $photo = $this->getDoctrine()->getRepository(TrickPhoto::class)->find($id);
+        $manager = $this->getDoctrine()->getManager();
+        if ($photo->getTrick()->getFrontPhoto() == $photo) {
+            $photo->getTrick()->setFrontPhoto(null);
+        }
+        $imageUploader->remove($photo->getAdress(), $this->getParameter('tricks_photos_directory'));
+        $manager->remove($photo);
+        $manager->flush();
+
+        $this->addFlash(
+          'notice',
+          'The photo has been deleted'
+        );
+
+        return $this->redirect($this->generateUrl('edit_trick', array('id' => $photo->getTrick()->getId())).'#content');
     }
 }

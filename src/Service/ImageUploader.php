@@ -13,4 +13,9 @@ class ImageUploader
 
         return $fileName;
     }
+
+    public function remove(string $fileName, $targetDirecory)
+    {
+        unlink($targetDirecory.'/'.$fileName);
+    }
 }
