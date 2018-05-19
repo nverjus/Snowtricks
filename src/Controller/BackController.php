@@ -134,4 +134,14 @@ class BackController extends Controller
           'form' => $form->createView(),
         ));
     }
+
+    public function deleteVideo(Video $video)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $trickId = $video->getTrick()->getId();
+        $manager->remove($video);
+        $manager->flush();
+
+        return $this->redirect($this->generateUrl('index').'#content');
+    }
 }
