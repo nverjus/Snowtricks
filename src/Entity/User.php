@@ -4,6 +4,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\UniqUsername;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -19,7 +20,8 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
-     * @Assert\NotBkank()
+     * @Assert\NotBlank()
+     * @UniqUsername()
      */
     private $username;
 
@@ -49,10 +51,9 @@ class User implements UserInterface, \Serializable
     private $isActive;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\UserPhoto", mappedBy="user", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\OneToOne(targetEntity="App\Entity\UserPhoto", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $userPhoto;
+    private $userPhoto = null;
 
     public function __construct()
     {
@@ -168,15 +169,9 @@ class User implements UserInterface, \Serializable
         return $this->userPhoto;
     }
 
-    public function setUserPhoto(?UserPhoto $userPhoto): self
+    public function setUserPhoto($userPhoto): self
     {
         $this->userPhoto = $userPhoto;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newUser = $userPhoto === null ? null : $this;
-        if ($newUser !== $userPhoto->getUser()) {
-            $userPhoto->setUser($newUser);
-        }
 
         return $this;
     }

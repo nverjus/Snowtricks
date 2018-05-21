@@ -18,7 +18,6 @@ class TrickPhoto
     private $id;
 
     /**
-     *
      * @ORM\Column(type="string", length=255)
      * @Assert\Image(
      *     minWidth = 200,
@@ -39,6 +38,7 @@ class TrickPhoto
     {
         return $this->id;
     }
+    
     public function getAdress()
     {
         return $this->adress;

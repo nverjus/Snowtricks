@@ -7,7 +7,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Validator\Constraints\Image;
 
 class UserPhotoType extends AbstractType
 {
@@ -16,7 +15,6 @@ class UserPhotoType extends AbstractType
         $builder
           ->add('adress', FileType::class, array(
             'translation_domain' => false,
-            'constraints' => new Image(),
             'required'     => false,
             'label' => 'Profile picture',
           ))
