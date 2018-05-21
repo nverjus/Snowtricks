@@ -19,7 +19,7 @@
           </div>
           {% if trick.frontPhoto is not null %}
             <div class="col-xs-6">
-              <a class="trick-action align-middle" data-toggle="modal" data-target="#front-img-del">
+              <a class="trick-action align-middle" data-toggle="modal" data-target="#delFrontImage">
                 <i class="far fa-trash-alt"></i>
               </a>
             </div>
@@ -142,7 +142,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-danger">Delete</button>
+          <a type="button" class="btn btn-danger" href="{{ path('delete_trick', {'id': trick.id}) }}">Delete</a>
         </div>
       </div>
     </div>

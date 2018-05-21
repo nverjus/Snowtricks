@@ -31,7 +31,7 @@ class TrickPhoto
 
     /**
     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="trickPhotos")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $trick;
 
@@ -56,7 +56,7 @@ class TrickPhoto
         return $this->trick;
     }
 
-    public function setTrick(?Trick $trick): self
+    public function setTrick($trick): self
     {
         $this->trick = $trick;
 

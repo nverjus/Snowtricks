@@ -57,22 +57,22 @@ class Trick
     private $trickGroup;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="trick", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $comments;
 
     /**
-    * @ORM\OneToMany(targetEntity="App\Entity\TrickPhoto", mappedBy="trick", cascade={"persist", "remove"})
+    * @ORM\OneToMany(targetEntity="App\Entity\TrickPhoto", mappedBy="trick", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $trickPhotos;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $videos;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\TrickPhoto", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\TrickPhoto", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $frontPhoto = null;
 

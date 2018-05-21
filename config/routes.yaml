@@ -33,6 +33,12 @@ add_trick:
   path:              /trick-add
   defaults: { _controller: 'App\Controller\BackController::addTrick' }
 
+delete_trick:
+  path:              /trick-delete-{id}
+  defaults: { _controller: 'App\Controller\BackController::deleteTrick' }
+  requirements:
+    id:              '\d+'
+
 delete_video:
   path:              /video-delete-{id}
   defaults: { _controller: 'App\Controller\BackController::deleteVideo' }

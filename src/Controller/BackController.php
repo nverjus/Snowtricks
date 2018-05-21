@@ -149,9 +149,8 @@ class BackController extends Controller
         return $this->redirect($this->generateUrl('edit_trick', array('id' => $video->getTrick()->getId())).'#content');
     }
 
-    public function deleteTrickPhoto($id, ImageUploader $imageUploader)
+    public function deleteTrickPhoto(TrickPhoto $photo, ImageUploader $imageUploader)
     {
-        $photo = $this->getDoctrine()->getRepository(TrickPhoto::class)->find($id);
         $manager = $this->getDoctrine()->getManager();
         if ($photo->getTrick()->getFrontPhoto() == $photo) {
             $photo->getTrick()->setFrontPhoto(null);
@@ -166,5 +165,35 @@ class BackController extends Controller
         );
 
         return $this->redirect($this->generateUrl('edit_trick', array('id' => $photo->getTrick()->getId())).'#content');
+    }
+
+    public function deleteTrick(Trick $trick, ImageUploader $uploader)
+    {
+        $trick->setFrontPhoto(null);
+
+        foreach ($trick->getTrickPhotos() as $photo) {
+            $trick->removeTrickPhoto($photo);
+            $imageUploader->remove($photo->getAdress(), $this->getParameter('tricks_photos_directory'));
+            $this->getDoctrine()->getManager()->remove($photo);
+        }
+        foreach ($trick->getVideos() as $video) {
+            $trick->removeVideo($video);
+            $this->getDoctrine()->getManager()->remove($video);
+        }
+        foreach ($trick->getComments() as $comment) {
+            $trick->removeComment($comment);
+            $this->getDoctrine()->getManager()->remove($comment);
+        }
+        $this->getDoctrine()->getManager()->flush();
+
+        $this->getDoctrine()->getManager()->remove($trick);
+        $this->getDoctrine()->getManager()->flush();
+
+        $this->addFlash(
+        'notice',
+        'The trick has been deleted'
+      );
+
+        return $this->redirect($this->generateUrl('index').'#content');
     }
 }
