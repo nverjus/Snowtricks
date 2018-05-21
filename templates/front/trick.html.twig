@@ -17,7 +17,7 @@
             </a>
           </div>
           <div class="col-xs-6">
-            <a href="#" class="trick-action align-middle">
+            <a href="#" class="trick-action align-middle" data-toggle="modal" data-target="#delTrick">
               <i class="far fa-trash-alt"></i>
             </a>
           </div>
@@ -153,4 +153,24 @@
       </div>
     </div>
   {% endfor %}
+  <!-- Delete trick modal -->
+  <div class="modal fade" id="delTrick" tabindex="-1" role="dialog" aria-labelledby="DelTrickLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="DelTrickLabel">Delete the trick</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are your sure you you want to delete this trick ?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <a type="button" class="btn btn-danger" href="{{ path('delete_trick', {'id': trick.id}) }}">Delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

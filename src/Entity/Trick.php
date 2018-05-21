@@ -23,8 +23,8 @@ class Trick
     /**
      * @ORM\Column(type="string", length=25, unique=true)
      * @Assert\NotBlank(message = "The trick must have a name")
-     * @Assert\Length(min = 4,
-     *               minMessage = "The name must have at least 4 characters",
+     * @Assert\Length(min = 3,
+     *               minMessage = "The name must have at least 3 characters",
      *               max = 25,
      *               maxMessage = "The name can't have more than 50 characters"
      * )
@@ -57,22 +57,22 @@ class Trick
     private $trickGroup;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="trick", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $comments;
 
     /**
-    * @ORM\OneToMany(targetEntity="App\Entity\TrickPhoto", mappedBy="trick", cascade={"persist", "remove"})
+    * @ORM\OneToMany(targetEntity="App\Entity\TrickPhoto", mappedBy="trick", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $trickPhotos;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $videos;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\TrickPhoto", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\TrickPhoto", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $frontPhoto = null;
 
@@ -273,10 +273,12 @@ class Trick
         return $this->frontPhoto;
     }
 
-    public function setFrontPhoto(?TrickPhoto $frontPhoto): self
+    public function setFrontPhoto($frontPhoto): self
     {
         $this->frontPhoto = $frontPhoto;
-        $this->frontPhoto->setTrick($this);
+        if ($frontPhoto !== null) {
+            $this->frontPhoto->setTrick($this);
+        }
 
         return $this;
     }

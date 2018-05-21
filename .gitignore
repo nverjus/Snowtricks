@@ -24,3 +24,4 @@ yarn-error.log
 
 /template/
 docker-compose.override.yml
+public/img/
