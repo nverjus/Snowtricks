@@ -124,7 +124,7 @@ class BackController extends Controller
             $manager->flush();
 
             $this->addFlash(
-              'trick-notice',
+              'notice',
               'The trick has been saved'
             );
             return $this->redirect($this->generateUrl('index').'#content');

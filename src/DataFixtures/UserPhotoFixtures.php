@@ -4,11 +4,10 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\User;
 use App\Entity\UserPhoto;
 
-class UserPhotoFixtures extends Fixture implements DependentFixtureInterface
+class UserPhotoFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
@@ -16,16 +15,8 @@ class UserPhotoFixtures extends Fixture implements DependentFixtureInterface
 
         $photo = new UserPhoto();
         $photo->setAdress('admin.png');
-        $photo->setUser($admin);
         $manager->persist($photo);
 
         $manager->flush();
-    }
-
-    public function getDependencies()
-    {
-        return array(
-            UserFixtures::class,
-        );
     }
 }

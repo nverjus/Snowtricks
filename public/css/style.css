@@ -241,6 +241,6 @@ legend {
     margin: 20px 10px 0 10px;
     padding-top: 40px;
     padding-bottom: 30px;
-    height: 87vh;
+    min-height: 87vh;
   }
 }
