@@ -62,7 +62,8 @@ class BackController extends Controller
             );
             return $this->redirect($this->generateUrl('trick', array('id' => $trick->getId())).'#content');
         }
-
+        $trick->setTrickPhotos($trickPhotos);
+        $trick->setVideos($videos);
 
         $frontPhoto = new TrickPhoto();
         $frontPhotoForm = $this->createForm(TrickPhotoType::class, $frontPhoto);
@@ -71,6 +72,7 @@ class BackController extends Controller
         if ($frontPhotoForm->isSubmitted() && $frontPhotoForm->isValid()) {
             $fileName = $imageUploader->upload($frontPhoto->getAdress(), $this->getParameter('tricks_photos_directory'));
             $frontPhoto->setAdress($fileName);
+            $frontPhoto->setTrick($trick);
             $trick->setFrontPhoto($frontPhoto);
 
             $manager->persist($trick);
@@ -79,8 +81,6 @@ class BackController extends Controller
             $this->addFlash('trick-notice', 'Front Photo added');
             return $this->redirect($this->generateUrl('trick', array('id' => $trick->getId())).'#content');
         }
-        $trick->setTrickPhotos($trickPhotos);
-        $trick->setVideos($videos);
 
         return $this->render('back/editTrick.html.twig', array(
           'trick' => $trick,
@@ -173,7 +173,7 @@ class BackController extends Controller
 
         foreach ($trick->getTrickPhotos() as $photo) {
             $trick->removeTrickPhoto($photo);
-            $imageUploader->remove($photo->getAdress(), $this->getParameter('tricks_photos_directory'));
+            $uploader->remove($photo->getAdress(), $this->getParameter('tricks_photos_directory'));
             $this->getDoctrine()->getManager()->remove($photo);
         }
         foreach ($trick->getVideos() as $video) {
@@ -195,5 +195,21 @@ class BackController extends Controller
       );
 
         return $this->redirect($this->generateUrl('index').'#content');
+    }
+
+    public function deleteFrontPhoto(Trick $trick, ImageUploader $imageUploader)
+    {
+        $photo = $trick->getFrontPhoto();
+        $trick->setFrontPhoto(null);
+        $imageUploader->remove($photo->getAdress(), $this->getParameter('tricks_photos_directory'));
+        $manager->remove($photo);
+        $manager->flush();
+
+        $this->addFlash(
+          'notice',
+          'The photo has been deleted'
+        );
+
+        return $this->redirect($this->generateUrl('edit_trick', array('id' => $photo->getTrick()->getId())).'#content');
     }
 }

@@ -50,3 +50,9 @@ delete_trick_photo:
   defaults: { _controller: 'App\Controller\BackController::deleteTrickPhoto' }
   requirements:
     id:              '\d+'
+
+delete_front_photo:
+  path:              /front-photo-delete-{id}
+  defaults: { _controller: 'App\Controller\BackController::deleteFrontPhoto' }
+  requirements:
+    id:              '\d+'
