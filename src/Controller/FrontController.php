@@ -61,14 +61,14 @@ class FrontController extends Controller
 
             $comment = $form->getData();
             $comment->setTrick($trick);
-            $comment->setUser($manager->getRepository(User::class)->findOneBy(array('username' => 'admin')));
+            $comment->setUser($this->getUser());
 
             $manager->persist($comment);
             $manager->flush();
 
             $this->addFlash(
               'comment-notice',
-              'The trick has been edited'
+              'Your comment has been saved'
             );
             return $this->redirect($this->generateUrl('trick', array('id' => $trick->getId())).'#comment-form');
         }

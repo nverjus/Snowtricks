@@ -40,14 +40,14 @@
             {{ form_widget(form.description, { 'attr': { 'placeholder': 'Trick description', 'rows': 8 }}
             )}}
           </div>
-          <div class="col-md-2 col-6 offset-6 form-group">
+          <div class="col-md-2 col-6 offset-6 offset-md-0 form-group">
             {{ form_errors(form.trickGroup) }}
             {{ form_widget(form.trickGroup) }}
           </div>
-          <div class="col-md-2 offset-md-4 col-4 offset-1 form-group">
+          <div class="col-md-2 offset-md-6 col-4 offset-2 form-group">
             <button type="button" class="form-control btn btn-danger" data-toggle="modal" data-target="#delTrick">Delete</button>
           </div>
-          <div class="col-md-2 offset-md-0 col-4 offset-1 form-group">
+          <div class="col-md-2 offset-md-0 col-4 form-group">
             <button type="submit" class="form-control btn btn-primary">Save</button>
           </div>
         </div>
