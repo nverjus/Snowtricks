@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in -
+{% endblock %}
+
+{% block body %}
+  <div class="container" id="content">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 forms">
+        <h2>Login</h2>
+        {% if error %}
+          <div class="alert alert-danger">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+          </div>
+        {% endif %}
+        <div class="form">
+          <form action="{{ path('login') }}" method="post">
+            <div class="form-row">
+              <div class="form-group col-md-6 offset-md-3 col-10 offset-1">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="_username" class="form-control " value="{{ last_username }}">
+              </div>
+              <div class="form-group col-md-6 offset-md-3 col-10 offset-1">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="form-control" name="_password">
+
+              </div>
+              <div class="form-group col-md-6 offset-md-3 col-10 offset-1">
+                <input type="submit" class="form-control btn btn-primary" value="Login">
+              </div>
+            </div>
+          </form>
+          <div class="col-md-6 offset-md-3 d-bloc d-md-none">
+            <a href="#">Register</a>
+          </div>
+          <div class="col-md-6 offset-md-3">
+            <a href="#">Forgot Password ?</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

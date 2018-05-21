@@ -13,13 +13,15 @@ class UserFixtures extends Fixture
         $usersList = array(
           array(
             'username' => 'admin',
-            'password' => '$argon2i$v=19$m=1024,t=2,p=2$M2FELlUxSllpZzV0ZkgzMw$GU5bHTomP07amK4pzOgArotDvEBExBhNvJuZ9UU0LPM',
+            'password' => '$argon2i$v=19$m=1024,t=2,p=2$MHY3R2cxa3JIa3FUZkFaRw$E7hqA7d3/pjZB9yo+6XoyyQJlD8kWpbgWbTggcSnCUI',
             'email' => 'admin@admin.com',
+            'isActive' => true,
           ),
           array(
             'username' => 'user',
-            'password' => '$argon2i$v=19$m=1024,t=2,p=2$MHNoRk5DOTlrdDY1R3VtWg$XkSiswww1kjg90yLu1ZNNAt3H40JQCEhMo6oEkrhCXw',
+            'password' => '$argon2i$v=19$m=1024,t=2,p=2$WHRsUTBxUmVINC9BTzBYMA$SZF2dUDQu7d+czFyEKPmuZA5/XxhJObWqYiasAt4IbU',
             'email' => 'user@user.com',
+            'isActive' => true,
           ),
         );
         foreach ($usersList as $data) {
