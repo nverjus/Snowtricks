@@ -3,9 +3,9 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="app_user")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User implements UserInterface, \Serializable
@@ -19,18 +19,29 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
+     * @Assert\NotBkank()
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=8, minMessage="Password must have at least eaght character")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=254, unique=true)
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = true
+     * )
      */
     private $email;
+
+    /**
+     * @ORM\Column(type="string", length=254, unique=true)
+     */
+    private $token;
 
     /**
      * @ORM\Column(name="is_active", type="boolean")
@@ -39,12 +50,14 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\UserPhoto", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $userPhoto;
 
     public function __construct()
     {
-        $this->isActive = false;
+        $this->isActive = true;
+        $this->token = md5(uniqid());
     }
 
     public function getUsername()
@@ -117,6 +130,18 @@ class User implements UserInterface, \Serializable
     public function getEmail(): ?string
     {
         return $this->email;
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
     }
 
     public function setEmail(string $email): self
