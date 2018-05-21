@@ -28,9 +28,9 @@
       </div>
       <div class="col-12 front-img">
         {% if trick.frontPhoto is not null %}
-          <img alt='{{ trick.name }}' src="img/tricks/{{ trick.frontPhoto.adress }}" class="img-fluid">
+          <img alt='{{ trick.name }}' src="{{asset('img/tricks/')}}{{ trick.frontPhoto.adress }}" class="img-fluid">
         {% else %}
-          <img alt="No photo" src="img/tricks/no-photo.png" class="img-fluid">
+          <img alt="No photo" src="{{asset('img/tricks/')}}no-photo.png" class="img-fluid">
         {% endif %}
       </div>
     </div>
@@ -47,7 +47,7 @@
       {% for photo in trick.trickPhotos %}
         <div class="col-md-2">
           <div class="row">
-            <img alt='{{ photo.adress }}' src="img/tricks/{{ photo.adress }}" class="img-fluid" data-toggle="modal" data-target="#modal-photo-{{ photo.id }}">
+            <img alt='{{ photo.adress }}' src="{{asset('img/tricks/')}}{{ photo.adress }}" class="img-fluid" data-toggle="modal" data-target="#modal-photo-{{ photo.id }}">
           </div>
           <div class="col-6 offset-6">
             <div class="col-6 offset-6">
@@ -255,7 +255,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <a href="{{ path('delete_video', {'id': video.id}) }}">
+            <a href="{{ asset('delete_video', {'id': video.id}) }}">
               <button type="button" class="btn btn-danger">
                 Delete</button>
             </a>

@@ -25,9 +25,9 @@
       </div>
       <div class="col-12 front-img">
         {% if trick.frontPhoto is not null %}
-          <img alt='{{ trick.name }}' src="img/tricks/{{ trick.frontPhoto.adress }}" class="img-fluid">
+          <img alt='{{ trick.name }}' src="{{asset('img/tricks/')}}{{ trick.frontPhoto.adress }}" class="img-fluid">
         {% else %}
-          <img alt="No photo" src="img/tricks/no-photo.png" class="img-fluid">
+          <img alt="No photo" src="{{asset('img/tricks/')}}no-photo.png" class="img-fluid">
         {% endif %}
       </div>
     </div>
@@ -43,7 +43,7 @@
     <div class="row medias">
       {% for photo in trick.trickPhotos %}
         <div class="col-md-2">
-          <img alt='{{ photo.adress }}' src="img/tricks/{{ photo.adress }}" class="img-fluid" data-toggle="modal" data-target="#modal-photo-{{ photo.id }}">
+          <img alt='{{ photo.adress }}' src="{{asset('img/tricks/')}}{{ photo.adress }}" class="img-fluid" data-toggle="modal" data-target="#modal-photo-{{ photo.id }}">
         </div>
       {% endfor %}
       {% for video in trick.videos %}
@@ -117,9 +117,9 @@
           <div class="d-flex justify-content-between comment ">
             <div class="col-2 user ">
               {% if comment.user.userPhoto is not null %}
-                <img class="img-fluid rounded-circle " alt="{{ comment.user.username }}" src="img/users/{{ comment.user.userPhoto.adress }}">
+                <img class="img-fluid rounded-circle " alt="{{ comment.user.username }}" src="{{asset('img/users/')}}{{ comment.user.userPhoto.adress }}">
               {% else %}
-                <img class="img-fluid rounded-circle " alt="{{ comment.user.username }}" src="img/users/default.png">
+                <img class="img-fluid rounded-circle " alt="{{ comment.user.username }}" src="{{asset('img/users/')}}default.png">
               {% endif %}
               <small>{{ comment.user.username }}</small>
             </div>
