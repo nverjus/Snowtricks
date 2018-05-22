@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Service\ImageUploader;
 use App\Entity\Trick;
 use App\Entity\TrickPhoto;
@@ -14,6 +15,9 @@ use App\Form\TrickPhotoType;
 
 class BackController extends Controller
 {
+    /**
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     */
     public function editTrick(Trick $trick, Request $request, ImageUploader $imageUploader)
     {
         $manager = $this->getDoctrine()->getManager();
@@ -89,6 +93,9 @@ class BackController extends Controller
         ));
     }
 
+    /**
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     */
     public function addTrick(Request $request, ImageUploader $imageUploader)
     {
         $manager = $this->getDoctrine()->getManager();
@@ -135,6 +142,9 @@ class BackController extends Controller
         ));
     }
 
+    /**
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
     public function deleteVideo(Video $video)
     {
         $manager = $this->getDoctrine()->getManager();
@@ -149,6 +159,9 @@ class BackController extends Controller
         return $this->redirect($this->generateUrl('edit_trick', array('id' => $video->getTrick()->getId())).'#content');
     }
 
+    /**
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
     public function deleteTrickPhoto(TrickPhoto $photo, ImageUploader $imageUploader)
     {
         $manager = $this->getDoctrine()->getManager();
@@ -167,6 +180,9 @@ class BackController extends Controller
         return $this->redirect($this->generateUrl('edit_trick', array('id' => $photo->getTrick()->getId())).'#content');
     }
 
+    /**
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
     public function deleteTrick(Trick $trick, ImageUploader $uploader)
     {
         $trick->setFrontPhoto(null);
@@ -197,6 +213,9 @@ class BackController extends Controller
         return $this->redirect($this->generateUrl('index').'#content');
     }
 
+    /**
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
     public function deleteFrontPhoto(Trick $trick, ImageUploader $imageUploader)
     {
         $photo = $trick->getFrontPhoto();
