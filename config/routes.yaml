@@ -69,3 +69,8 @@ register:
   path:              /register
   defaults:
     _controller:     App\Controller\SecurityController::register
+
+edit_user:
+  path:              /user/edit
+  defaults:
+    _controller:     App\Controller\SecurityController::editUser

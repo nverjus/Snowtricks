@@ -143,7 +143,7 @@ class BackController extends Controller
     }
 
     /**
-     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function deleteVideo(Video $video)
     {
@@ -160,7 +160,7 @@ class BackController extends Controller
     }
 
     /**
-     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function deleteTrickPhoto(TrickPhoto $photo, ImageUploader $imageUploader)
     {
@@ -181,7 +181,7 @@ class BackController extends Controller
     }
 
     /**
-     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function deleteTrick(Trick $trick, ImageUploader $uploader)
     {
@@ -214,7 +214,7 @@ class BackController extends Controller
     }
 
     /**
-     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function deleteFrontPhoto(Trick $trick, ImageUploader $imageUploader)
     {

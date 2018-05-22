@@ -7,9 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Service\ImageUploader;
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\EditUserType;
 
 class SecurityController extends Controller
 {
@@ -26,6 +28,7 @@ class SecurityController extends Controller
           'error'         => $error,
       ));
     }
+
 
     public function register(Request $request, ImageUploader $uploader, UserPasswordEncoderInterface $encoder)
     {
@@ -54,5 +57,21 @@ class SecurityController extends Controller
         }
 
         return $this->render('security/register.html.twig', array('form' => $form->createView()));
+    }
+
+    /**
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     */
+    public function editUser(Request $request, ImageUploader $uploader)
+    {
+        $user = $this->getUser();
+        $user->getUserPhoto() !== null ? $photo = $user->getUserPhoto() : $photo = null;
+        $user->setUserPhoto(null);
+        $password = $user->getPassword();
+        $password = $user->setPassword('');
+
+        $form = $this->createForm(EditUserType::class, $user);
+
+        return $this->render('security/editUser.html.twig', array('form' => $form->createView()));
     }
 }
