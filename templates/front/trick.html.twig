@@ -9,20 +9,22 @@
 
   <div class="container trick-content" id="content">
     <div class="row trick-front-image">
-      <div class="col-2 offset-10 icons">
-        <div class="d-flex justify-content-around">
-          <div class="col-xs-6">
-            <a href="{{ path('edit_trick', {'id': trick.id}) }}" class="trick-action align-middle">
-              <i class="fas fa-pencil-alt"></i>
-            </a>
-          </div>
-          <div class="col-xs-6">
-            <a href="#" class="trick-action align-middle" data-toggle="modal" data-target="#delTrick">
-              <i class="far fa-trash-alt"></i>
-            </a>
+      {% if is_granted('IS_ANTHENTICATED_REMEMBERED') %}
+        <div class="col-2 offset-10 icons">
+          <div class="d-flex justify-content-around">
+            <div class="col-xs-6">
+              <a href="{{ path('edit_trick', {'id': trick.id}) }}" class="trick-action align-middle">
+                <i class="fas fa-pencil-alt"></i>
+              </a>
+            </div>
+            <div class="col-xs-6">
+              <a href="#" class="trick-action align-middle" data-toggle="modal" data-target="#delTrick">
+                <i class="far fa-trash-alt"></i>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      {% endif %}
       <div class="col-12 front-img">
         {% if trick.frontPhoto is not null %}
           <img alt='{{ trick.name }}' src="{{asset('img/tricks/')}}{{ trick.frontPhoto.adress }}" class="img-fluid">
@@ -84,31 +86,41 @@
       {% endif %}
     </div>
     <hr>
-    <div id="comment-form">
-      {% for message in app.flashes('comment-notice') %}
-        <div class="row">
-          <div class="col-md-6 offset-md-3 ">
-            <div class="alert alert-success">
-              {{ message }}
+    {% if is_granted('IS_ANTHENTICATED_REMEMBERED') %}
+      <div id="comment-form">
+        {% for message in app.flashes('comment-notice') %}
+          <div class="row">
+            <div class="col-md-6 offset-md-3 ">
+              <div class="alert alert-success">
+                {{ message }}
+              </div>
             </div>
           </div>
-        </div>
-      {% endfor %}
-      {{ form_start(form) }}
-      <div class="form-row ">
-        {{ form_errors(form) }}
-        <div class="col-md-4 offset-md-3 ">
-          {{ form_errors(form.content) }}
-          {{ form_widget(form.content, {'attr': {'placeholder': 'Your comment'}}) }}
-        </div>
+        {% endfor %}
+        {{ form_start(form) }}
+        <div class="form-row ">
+          {{ form_errors(form) }}
+          <div class="col-md-4 offset-md-3 ">
+            {{ form_errors(form.content) }}
+            {{ form_widget(form.content, {'attr': {'placeholder': 'Your comment'}}) }}
+          </div>
 
-        <div class="col-md-2 align-center ">
-          <button type="submit " class="btn btn-primary leave-comment ">Leave a comment</button>
+          <div class="col-md-2 align-center ">
+            <button type="submit " class="btn btn-primary leave-comment ">Leave a comment</button>
+          </div>
+        </div>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+      </div>
+    {% else %}
+      <div class="col-md-6 offset-md-3">
+        <div class="comment">
+          <p>You must
+            <a href="{{ path('login') }}">log in</a>
+            to leave a comment</p>
         </div>
       </div>
-      {{ form_rest(form) }}
-      {{ form_end(form) }}
-    </div>
+    {% endif %}
     <hr>
     <div class="row comments " id="{{ trick.id }}">
       {% for comment in comments %}
@@ -153,24 +165,26 @@
       </div>
     </div>
   {% endfor %}
-  <!-- Delete trick modal -->
-  <div class="modal fade" id="delTrick" tabindex="-1" role="dialog" aria-labelledby="DelTrickLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="DelTrickLabel">Delete the trick</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Are your sure you you want to delete this trick ?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <a type="button" class="btn btn-danger" href="{{ path('delete_trick', {'id': trick.id}) }}">Delete</a>
+  {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    <!-- Delete trick modal -->
+    <div class="modal fade" id="delTrick" tabindex="-1" role="dialog" aria-labelledby="DelTrickLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="DelTrickLabel">Delete the trick</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Are your sure you you want to delete this trick ?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <a type="button" class="btn btn-danger" href="{{ path('delete_trick', {'id': trick.id}) }}">Delete</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  {% endif %}
 {% endblock %}

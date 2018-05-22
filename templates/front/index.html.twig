@@ -43,16 +43,18 @@
               <a href="{{ path('trick', {'id': trick.id}) }}">
                 {{ trick.name }}</a>
             </div>
-            <div class="col-2">
-              <a href="{{ path('edit_trick', {'id': trick.id}) }}" class="trick-icons">
-                <i class="fas fa-pencil-alt"></i>
-              </a>
-            </div>
-            <div class="col-2">
-              <a href="#" class="trick-action align-middle" data-toggle="modal" data-target="#delTrick-{{ trick.id }}">
-                <i class="far fa-trash-alt"></i>
-              </a>
-            </div>
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+              <div class="col-2">
+                <a href="{{ path('edit_trick', {'id': trick.id}) }}" class="trick-icons">
+                  <i class="fas fa-pencil-alt"></i>
+                </a>
+              </div>
+              <div class="col-2">
+                <a href="#" class="trick-action align-middle" data-toggle="modal" data-target="#delTrick-{{ trick.id }}">
+                  <i class="far fa-trash-alt"></i>
+                </a>
+              </div>
+            {% endif %}
           </div>
         </div>
       {% endfor %}
