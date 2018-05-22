@@ -16,10 +16,6 @@ class EditUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', TextType::class, array(
-              'translation_domain' => false,
-              'required' => false,
-            ))
             ->add('password', PasswordType::class, array(
               'translation_domain' => false,
               'required' => false,

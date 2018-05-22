@@ -41,7 +41,6 @@ class SecurityController extends Controller
             if ($user->getUserPhoto()->getAdress() !== null) {
                 $filename = $uploader->upload($user->getUserPhoto()->getAdress(), $this->getParameter('users_photos_directory'));
                 $user->getUserPhoto()->setAdress($filename);
-                $user->getUserPhoto()->setUser($user);
             } elseif ($user->getUserPhoto()->getAdress() === null) {
                 $user->setUserPhoto(null);
             }
@@ -51,7 +50,7 @@ class SecurityController extends Controller
 
             $this->addFlash(
             'notice',
-            'Your account has been createdan activation link has been sent to '.$user->getEmail()
+            'Your account has been created, an activation link has been sent to '.$user->getEmail()
           );
             return $this->redirect($this->generateUrl('index').'#content');
         }
@@ -62,15 +61,34 @@ class SecurityController extends Controller
     /**
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
-    public function editUser(Request $request, ImageUploader $uploader)
+    public function editUser(Request $request, ImageUploader $uploader, UserPasswordEncoderInterface $encoder)
     {
         $user = $this->getUser();
         $user->getUserPhoto() !== null ? $photo = $user->getUserPhoto() : $photo = null;
         $user->setUserPhoto(null);
-        $password = $user->getPassword();
-        $password = $user->setPassword('');
+        $oldPassword = $user->getPassword();
+
 
         $form = $this->createForm(EditUserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($user->getUserPhoto() !== null) {
+                $filename = $uploader->upload($user->getUserPhoto()->getAdress(), $this->getParameter('users_photos_directory'));
+                $user->getUserPhoto()->setAdress($filename);
+            } elseif ($user->getUserPhoto() === null) {
+                $user->setUserPhoto($photo);
+            }
+            $user->getPassword() === null ? $user->setPassword($oldPassword) : $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash(
+            'notice',
+            'Your account has been edited'
+          );
+            return $this->redirect($this->generateUrl('index').'#content');
+        }
 
         return $this->render('security/editUser.html.twig', array('form' => $form->createView()));
     }
