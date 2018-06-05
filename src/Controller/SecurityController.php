@@ -30,7 +30,7 @@ class SecurityController extends Controller
     }
 
 
-    public function register(Request $request, ImageUploader $uploader, UserPasswordEncoderInterface $encoder)
+    public function register(Request $request, ImageUploader $uploader, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer)
     {
         $manager = $this->getDoctrine()->getManager();
         $user = new User();
@@ -47,6 +47,13 @@ class SecurityController extends Controller
             $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
             $manager->persist($user);
             $manager->flush();
+
+            $message = (new \Swift_Message('Snowtricks, account activation'))
+                ->setFrom('nverjus@gmail.com')
+                ->setTo($user->getEmail())
+                ->setBody($this->renderView('emails/activation.html.twig', array('user' => $user)), 'text/html');
+
+            $mailer->send($message);
 
             $this->addFlash(
             'notice',
