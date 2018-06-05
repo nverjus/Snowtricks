@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Account activated -
+{% endblock %}
+
+{% block body %}
+  <div class="container" id="content">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 forms">
+        <h3>Your account is now active.</h3>
+        <p>
+          <a href="{{ path('login') }}">Click here to log in</a>
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

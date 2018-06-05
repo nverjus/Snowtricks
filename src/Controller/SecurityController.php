@@ -30,7 +30,7 @@ class SecurityController extends Controller
     }
 
 
-    public function register(Request $request, ImageUploader $uploader, UserPasswordEncoderInterface $encoder)
+    public function register(Request $request, ImageUploader $uploader, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer)
     {
         $manager = $this->getDoctrine()->getManager();
         $user = new User();
@@ -48,6 +48,13 @@ class SecurityController extends Controller
             $manager->persist($user);
             $manager->flush();
 
+            $message = (new \Swift_Message('Snowtricks, account activation'))
+                ->setFrom('nverjus@gmail.com')
+                ->setTo($user->getEmail())
+                ->setBody($this->renderView('emails/activation.html.twig', array('user' => $user)), 'text/html');
+
+            $mailer->send($message);
+
             $this->addFlash(
             'notice',
             'Your account has been created, an activation link has been sent to '.$user->getEmail()
@@ -59,7 +66,7 @@ class SecurityController extends Controller
     }
 
     /**
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function editUser(Request $request, ImageUploader $uploader, UserPasswordEncoderInterface $encoder)
     {
@@ -91,5 +98,16 @@ class SecurityController extends Controller
         }
 
         return $this->render('security/editUser.html.twig', array('form' => $form->createView()));
+    }
+
+    public function activateAccount(User $user)
+    {
+        if ($user->isEnabled()) {
+            throw $this->createNotFoundException('This account is already enabled');
+        }
+
+        $user->setIsActive(true);
+        $this->getDoctrine()->getManager()->flush();
+        return $this->render('security/activateAccount.html.twig');
     }
 }

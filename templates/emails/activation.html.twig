@@ -1,0 +1,9 @@
+<h3>Your Snowtrick account need to be activated
+</h3>
+
+<p>Thanck for your registration to Snowtricks
+  {{ user.username }}
+</p>
+<p>To enable your account,
+  <a href="{{ url('activate_account', {'token': user.token}) }}">click here</a>
+</p>

@@ -12,7 +12,7 @@ $(function() {
       success: function(data) {
         var tricks = "";
         $.each(data["tricks"], function(key, trick) {
-          tricks = tricks + '<div class="col-md-2 trick"><a href="/trick-' + trick['id'] + '"><img alt="' + trick["name"] + '" src="img/tricks/' + trick['photo'] + '" class="img-fluid"></a><div class="d-flex justify-content-around trick-actions"><div class=" trick-name"><a href="/trick-' + trick['id'] + '">' + trick['name'] + '</a></div><div class="col-2"><a href="#" class="trick-icons"><i class="fas fa-pencil-alt"></i></a></div><div class="col-2"><a href="#" class="trick-icons"><i class="far fa-trash-alt"></i></a></div></div></div>';
+          tricks = tricks + '<div class="col-md-2 trick"><a href="/trick/' + trick['id'] + '"><img alt="' + trick["name"] + '" src="img/tricks/' + trick['photo'] + '" class="img-fluid"></a><div class="d-flex justify-content-around trick-actions"><div class=" trick-name"><a href="/trick-' + trick['id'] + '">' + trick['name'] + '</a></div><div class="col-2"><a href="#" class="trick-icons"><i class="fas fa-pencil-alt"></i></a></div><div class="col-2"><a href="#" class="trick-icons"><i class="far fa-trash-alt"></i></a></div></div></div>';
         });
         $(tricks).appendTo(".tricks").hide().slideDown("slow");
         $(".arrow-up").css("display", "block");
@@ -33,7 +33,7 @@ $(function() {
 
     $.ajax({
       type: "GET",
-      url: "/trick-" + trickId + "/" + page,
+      url: "/trick/" + trickId + "/" + page,
       data: data,
       async: true,
       dataType: "json",
