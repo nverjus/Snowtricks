@@ -102,6 +102,12 @@ class SecurityController extends Controller
 
     public function activateAccount(User $user)
     {
+        if ($user->isEnabled()) {
+            throw $this->createNotFoundException('This account is already enabled');
+        }
+
+        $user->setIsActive(true);
+        $this->getDoctrine()->getManager()->flush();
         return $this->render('security/activateAccount.html.twig');
     }
 }
