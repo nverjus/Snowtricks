@@ -17,14 +17,12 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             'username' => 'admin',
             'password' => '$argon2i$v=19$m=1024,t=2,p=2$MHY3R2cxa3JIa3FUZkFaRw$E7hqA7d3/pjZB9yo+6XoyyQJlD8kWpbgWbTggcSnCUI',
             'email' => 'admin@admin.com',
-            'isActive' => true,
-            'userPhoto' => $manager->getRepository(UserPhoto::class)->findOneBy(array('adress' => 'admin.png')),
+            'userPhoto' => $manager->getRepository(UserPhoto::class)->find(1),
           ),
           array(
             'username' => 'user',
             'password' => '$argon2i$v=19$m=1024,t=2,p=2$WHRsUTBxUmVINC9BTzBYMA$SZF2dUDQu7d+czFyEKPmuZA5/XxhJObWqYiasAt4IbU',
             'email' => 'user@user.com',
-            'isActive' => true,
             'userPhoto' => null,
           ),
         );
@@ -33,6 +31,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $user->setUsername($data['username']);
             $user->setEmail($data['email']);
             $user->setPassWord($data['password']);
+            $user->setIsActive(true);
+            $user->setUserPhoto($data['userPhoto']);
             $manager->persist($user);
         }
 

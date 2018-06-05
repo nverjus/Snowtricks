@@ -74,3 +74,8 @@ edit_user:
   path:              /user/edit
   defaults:
     _controller:     App\Controller\SecurityController::editUser
+
+activate_account:
+  path:              /activate/{token}
+  defaults:
+    _controller:     App\Controller\SecurityController::activateAccount

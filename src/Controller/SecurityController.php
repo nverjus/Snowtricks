@@ -66,7 +66,7 @@ class SecurityController extends Controller
     }
 
     /**
-     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function editUser(Request $request, ImageUploader $uploader, UserPasswordEncoderInterface $encoder)
     {
@@ -98,5 +98,10 @@ class SecurityController extends Controller
         }
 
         return $this->render('security/editUser.html.twig', array('form' => $form->createView()));
+    }
+
+    public function activateAccount(User $user)
+    {
+        return $this->render('security/activateAccount.html.twig');
     }
 }
