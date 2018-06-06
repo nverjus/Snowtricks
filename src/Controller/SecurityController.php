@@ -146,12 +146,32 @@ class SecurityController extends Controller
         return $this->render('security/forgotPassword.html.twig', array('form' => $form->createView()));
     }
 
-    public function resetPassword(User $user, Request $request)
+    public function resetPassword(User $user, Request $request, UserPasswordEncoderInterface $encoder)
     {
         $data = [];
 
         $form = $this->createForm(ResetPasswordType::class, $data);
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            if ($data['email'] === $user->getEmail()) {
+                $user->setPassword($encoder->encodePassword($user, $data['password']));
+
+                $this->getDoctrine()->getManager()->flush();
+
+                $this->addFlash(
+          'notice',
+          'Your password has been updated'
+        );
+                return $this->redirect($this->generateUrl('index').'#content');
+            }
+            $this->addFlash(
+          'notice',
+          'Invalid email adress'
+        );
+        }
 
         return $this->render('security/resetPassword.html.twig', array('form' => $form->createView()));
     }
