@@ -109,6 +109,7 @@ class SecurityController extends Controller
         }
 
         $user->setIsActive(true);
+        $user->resetToken();
         $this->getDoctrine()->getManager()->flush();
         return $this->render('security/activateAccount.html.twig');
     }
@@ -158,7 +159,7 @@ class SecurityController extends Controller
 
             if ($data['email'] === $user->getEmail()) {
                 $user->setPassword($encoder->encodePassword($user, $data['password']));
-
+                $user->resetToken();
                 $this->getDoctrine()->getManager()->flush();
 
                 $this->addFlash(

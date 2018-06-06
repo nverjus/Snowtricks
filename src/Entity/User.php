@@ -56,6 +56,11 @@ class User implements AdvancedUserInterface, \Serializable
     public function __construct()
     {
         $this->isActive = false;
+        $this->resetToken();
+    }
+
+    public function resetToken()
+    {
         $this->token = md5(uniqid());
     }
 
