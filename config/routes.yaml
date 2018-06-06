@@ -79,3 +79,13 @@ activate_account:
   path:              /activate/{token}
   defaults:
     _controller:     App\Controller\SecurityController::activateAccount
+
+forgot_password:
+  path:              /forgot-password
+  defaults:
+    _controller:     App\Controller\SecurityController:forgotPassword
+
+reset_password:
+  path:              /reset/{token}
+  defaults:
+    _controller:     App\Controller\SecurityController::resetPassword

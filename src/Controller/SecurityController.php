@@ -12,6 +12,8 @@ use App\Service\ImageUploader;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\EditUserType;
+use App\Form\ForgotPasswordType;
+use App\Form\ResetPasswordType;
 
 class SecurityController extends Controller
 {
@@ -107,7 +109,71 @@ class SecurityController extends Controller
         }
 
         $user->setIsActive(true);
+        $user->resetToken();
         $this->getDoctrine()->getManager()->flush();
         return $this->render('security/activateAccount.html.twig');
+    }
+
+    public function forgotPassword(Request $request, \Swift_Mailer $mailer)
+    {
+        $data = [];
+
+        $form = $this->createForm(ForgotPasswordType::class, $data);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $data['username']]);
+
+            if ($user !== null) {
+                $message = (new \Swift_Message('Snowtricks, reset password'))
+                              ->setFrom('nverjus@gmail.com')
+                              ->setTo($user->getEmail())
+                              ->setBody($this->renderView('emails/forgotPassword.html.twig', array('user' => $user)), 'text/html');
+
+                $mailer->send($message);
+                $this->addFlash(
+              'notice',
+              'An email has been sent to your email adress'
+            );
+                return $this->redirect($this->generateUrl('index').'#content');
+            }
+            $this->addFlash(
+            'notice',
+            'This username does not exists'
+          );
+        }
+
+        return $this->render('security/forgotPassword.html.twig', array('form' => $form->createView()));
+    }
+
+    public function resetPassword(User $user, Request $request, UserPasswordEncoderInterface $encoder)
+    {
+        $data = [];
+
+        $form = $this->createForm(ResetPasswordType::class, $data);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            if ($data['email'] === $user->getEmail()) {
+                $user->setPassword($encoder->encodePassword($user, $data['password']));
+                $user->resetToken();
+                $this->getDoctrine()->getManager()->flush();
+
+                $this->addFlash(
+          'notice',
+          'Your password has been updated'
+        );
+                return $this->redirect($this->generateUrl('index').'#content');
+            }
+            $this->addFlash(
+          'notice',
+          'Invalid email adress'
+        );
+        }
+
+        return $this->render('security/resetPassword.html.twig', array('form' => $form->createView()));
     }
 }
