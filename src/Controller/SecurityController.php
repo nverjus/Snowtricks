@@ -12,6 +12,7 @@ use App\Service\ImageUploader;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\EditUserType;
+use App\Form\ForgotPasswordType;
 
 class SecurityController extends Controller
 {
@@ -109,5 +110,32 @@ class SecurityController extends Controller
         $user->setIsActive(true);
         $this->getDoctrine()->getManager()->flush();
         return $this->render('security/activateAccount.html.twig');
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $data = [];
+
+        $form = $this->createForm(ForgotPasswordType::class, $data);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $data['username']]);
+
+            if ($user !== null) {
+                $this->addFlash(
+              'notice',
+              'An email has been sent to your adress'
+            );
+                return $this->redirect($this->generateUrl('index').'#content');
+            }
+            $this->addFlash(
+            'notice',
+            'This username does not exists'
+          );
+        }
+
+        return $this->render('security/forgotPassword.html.twig', array('form' => $form->createView()));
     }
 }
