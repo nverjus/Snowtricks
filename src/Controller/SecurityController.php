@@ -13,6 +13,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Form\EditUserType;
 use App\Form\ForgotPasswordType;
+use App\Form\ResetPasswordType;
 
 class SecurityController extends Controller
 {
@@ -143,5 +144,15 @@ class SecurityController extends Controller
         }
 
         return $this->render('security/forgotPassword.html.twig', array('form' => $form->createView()));
+    }
+
+    public function resetPassword(User $user, Request $request)
+    {
+        $data = [];
+
+        $form = $this->createForm(ResetPasswordType::class, $data);
+        $form->handleRequest($request);
+
+        return $this->render('security/resetPassword.html.twig', array('form' => $form->createView()));
     }
 }
