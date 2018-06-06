@@ -194,7 +194,9 @@ form .form-group {
   }
   .forms {
     margin-top: 80px;
-    height: 77vh;
+  }
+  #content {
+    min-height: 77vh;
   }
 }
 
@@ -211,6 +213,7 @@ legend {
   }
   #content {
     margin-bottom: 70px;
+    min-height: 87vh;
   }
   .trick-content {
     position: relative;
@@ -241,6 +244,5 @@ legend {
     margin: 20px 10px 0 10px;
     padding-top: 40px;
     padding-bottom: 30px;
-    min-height: 87vh;
   }
 }
