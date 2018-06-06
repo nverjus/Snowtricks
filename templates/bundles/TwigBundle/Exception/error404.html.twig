@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <div class="container" id="content">
+    <div class="row">
+      <div class="col-md-4 offset-md-3">
+        <h1>Page not found</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 offset-md-2">
+        <p>
+          The requested page couldn't be located. Checkout for any URL misspelling or
+          <a href="{{ path('index') }}">return to the homepage</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}
