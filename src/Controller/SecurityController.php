@@ -112,7 +112,7 @@ class SecurityController extends Controller
         return $this->render('security/activateAccount.html.twig');
     }
 
-    public function forgotPassword(Request $request)
+    public function forgotPassword(Request $request, \Swift_Mailer $mailer)
     {
         $data = [];
 
@@ -124,9 +124,15 @@ class SecurityController extends Controller
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $data['username']]);
 
             if ($user !== null) {
+                $message = (new \Swift_Message('Snowtricks, reset password'))
+                              ->setFrom('nverjus@gmail.com')
+                              ->setTo($user->getEmail())
+                              ->setBody($this->renderView('emails/forgotPassword.html.twig', array('user' => $user)), 'text/html');
+
+                $mailer->send($message);
                 $this->addFlash(
               'notice',
-              'An email has been sent to your adress'
+              'An email has been sent to your email adress'
             );
                 return $this->redirect($this->generateUrl('index').'#content');
             }
