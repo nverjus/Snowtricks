@@ -1,5 +1,4 @@
 DOCKER_COMPOSE?=docker-compose
-RUN=$(DOCKER_COMPOSE) run --rm server
 EXEC?=$(DOCKER_COMPOSE) exec server
 COMPOSER=$(EXEC) composer
 CONSOLE=bin/console
@@ -33,7 +32,7 @@ cc:                                                                             
 	$(EXEC) $(CONSOLE) cache:clear --env=prod
 
 tty:                                                                                                   ## Run app container in interactive mode
-	$(RUN) /bin/bash
+	$(EXEC) /bin/bash
 
 
 db: vendor                                                                               ## Reset the database and load fixtures
