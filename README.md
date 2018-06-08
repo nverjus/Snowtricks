@@ -1,5 +1,7 @@
 # Snowtricks, a snowboarders community
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3be5a0b496fe4f92945aed3521420520)](https://www.codacy.com/app/nverjus/Snowtricks?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=nverjus/Snowtricks&amp;utm_campaign=Badge_Grade)
+
 ## Prerequisite installation
 
 The project use [Docker](https://www.docker.com/), a containerisation tool, so the project has only 3 dependencies:
