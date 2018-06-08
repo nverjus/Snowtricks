@@ -11,8 +11,6 @@ class UserPhotoFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $admin = $manager->getRepository(User::class)->findOneBy(array('username' => 'admin'));
-
         $photo = new UserPhoto();
         $photo->setAdress('admin.png');
         $manager->persist($photo);

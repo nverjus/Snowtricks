@@ -6,7 +6,7 @@ LABEL maintainer="nverjus@protonmail.com"
 WORKDIR /var/www/html
 
 RUN apt-get update && \
-     apt-get install -y --no-install-recommends git=1:2.11.0-3+deb9u2 zlib1g-dev && \
+     apt-get install -y --no-install-recommends git=1:2.11.0-3+deb9u2 zlib1g-dev=1:1.2.8.dfsg-5 && \
      apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
