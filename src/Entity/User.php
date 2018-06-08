@@ -2,13 +2,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\UniqUsername;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements AdvancedUserInterface, \Serializable
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Column(type="integer")
@@ -20,6 +21,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @ORM\Column(type="string", length=25, unique=true)
      * @Assert\NotBlank()
+     * @UniqUsername()
      */
     private $username;
 
@@ -56,11 +58,6 @@ class User implements AdvancedUserInterface, \Serializable
     public function __construct()
     {
         $this->isActive = false;
-        $this->resetToken();
-    }
-
-    public function resetToken()
-    {
         $this->token = md5(uniqid());
     }
 
@@ -88,26 +85,6 @@ class User implements AdvancedUserInterface, \Serializable
     {
     }
 
-    public function isAccountNonExpired()
-    {
-        return true;
-    }
-
-    public function isAccountNonLocked()
-    {
-        return true;
-    }
-
-    public function isCredentialsNonExpired()
-    {
-        return true;
-    }
-
-    public function isEnabled()
-    {
-        return $this->isActive;
-    }
-
     /** @see \Serializable::serialize() */
     public function serialize()
     {
@@ -115,7 +92,6 @@ class User implements AdvancedUserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
-            $this->isActive,
             // see section on salt below
             // $this->salt,
         ));
@@ -128,7 +104,6 @@ class User implements AdvancedUserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
-            $this->isActive,
             // see section on salt below
             // $this->salt
         ) = unserialize($serialized, ['allowed_classes' => false]);
@@ -146,7 +121,7 @@ class User implements AdvancedUserInterface, \Serializable
         return $this;
     }
 
-    public function setPassword($password): self
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 

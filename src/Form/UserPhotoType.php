@@ -16,7 +16,7 @@ class UserPhotoType extends AbstractType
           ->add('adress', FileType::class, array(
             'translation_domain' => false,
             'required'     => false,
-            'label' => 'Profile picture',
+            'label' => 'Picture',
           ))
         ;
     }

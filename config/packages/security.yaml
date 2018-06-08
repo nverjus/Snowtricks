@@ -21,5 +21,6 @@ security:
             logout:
                 path:       logout
                 target:     /
+            user_checker:   App\Security\UserChecker
             remember_me:
               secret:       '%kernel.secret%'
