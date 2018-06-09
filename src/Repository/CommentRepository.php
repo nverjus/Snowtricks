@@ -33,10 +33,6 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return int Returns hte number of comments for a trick in database
-     */
-
     public function findNbPages($trickId, $commentsPerPage)
     {
         $nbComments = $this->createQueryBuilder('c')

@@ -40,7 +40,7 @@ $(function() {
       success: function(data) {
         var comments = "";
         $.each(data["comments"], function(key, comment) {
-          comments = comments + '<div class="col-md-6 offset-md-3"><div class="d-flex justify-content-between comment"><div class="col-2 user"><img class="img-fluid rounded-circle" alt="' + comment["user"]["name"] + '" src="img/users/' + comment["user"]["photo"] + '"><small>' + comment["user"]["name"] + '</small></div><div class="col-10"><small>Published the ' + comment["publicationDate"] + '</small><p>' + comment["content"] + '</p></div></div></div>';
+          comments = comments + '<div class="col-md-6 offset-md-3"><div class="d-flex justify-content-between comment"><div class="col-2 user"><img class="img-fluid rounded-circle" alt="' + comment["user"]["name"] + '" src="/img/users/' + comment["user"]["photo"] + '"><small>' + comment["user"]["name"] + '</small></div><div class="col-10"><small>Published the ' + comment["publicationDate"] + '</small><p>' + comment["content"] + '</p></div></div></div>';
         });
         $(comments).appendTo(".comments").hide().slideDown("slow");
         page = Number(page) + 1;

@@ -173,7 +173,7 @@ class Trick
         if ($this->comments->contains($comment)) {
             $this->comments->removeElement($comment);
             // set the owning side to null (unless already changed)
-            if ($comment->getTrick() === $this) {
+            if ($this === $comment->getTrick()) {
                 $comment->setTrick(null);
             }
         }
@@ -202,7 +202,7 @@ class Trick
         if ($this->trickPhotos->contains($trickPhoto)) {
             $this->trickPhotos->removeElement($trickPhoto);
             // set the owning side to null (unless already changed)
-            if ($trickPhoto->getTrick() === $this) {
+            if ($this === $trickPhoto->getTrick()) {
                 $trickPhoto->setTrick(null);
             }
             if ($this->frontPhoto === $trickPhoto) {

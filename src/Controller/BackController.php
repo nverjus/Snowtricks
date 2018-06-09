@@ -34,22 +34,22 @@ class BackController extends Controller
             $trick->setUpdateDate(new \DateTime());
             // Photos management
             foreach ($trick->getTrickPhotos() as $photo) {
-                if ($photo->getAdress() !== null) {
+                if (null !== $photo->getAdress()) {
                     $filename = $imageUploader->upload($photo->getAdress(), $this->getParameter('tricks_photos_directory'));
                     $photo->setAdress($filename);
                     $photo->setTrick($trick);
-                } elseif ($photo->getAdress() === null) {
+                } elseif (null === $photo->getAdress()) {
                     $trick->removeTrickPhoto($photo);
                 }
             }
             foreach ($trickPhotos as $photo) {
                 $trick->addTrickPhoto($photo);
             }
-            // Videos management
+
             foreach ($trick->getVideos() as $video) {
-                if ($video->getIframe() !== null) {
+                if (null !== $video->getIframe()) {
                     $video->setTrick($trick);
-                } elseif ($video->getIframe() === null) {
+                } elseif (null === $video->getIframe()) {
                     $trick->removeVideo($video);
                 }
             }
@@ -109,20 +109,20 @@ class BackController extends Controller
             $trick->setUpdateDate(new \DateTime());
             // Photos management
             foreach ($trick->getTrickPhotos() as $photo) {
-                if ($photo->getAdress() !== null) {
+                if (null !== $photo->getAdress()) {
                     $filename = $imageUploader->upload($photo->getAdress(), $this->getParameter('tricks_photos_directory'));
                     $photo->setAdress($filename);
                     $photo->setTrick($trick);
-                } elseif ($photo->getAdress() === null) {
+                } elseif (null === $photo->getAdress()) {
                     $trick->removeTrickPhoto($photo);
                 }
                 $trick->setFrontPhoto($trick->getTrickPhotos()[0]);
             }
             // Videos management
             foreach ($trick->getVideos() as $video) {
-                if ($video->getIframe() !== null) {
+                if (null !== $video->getIframe()) {
                     $video->setTrick($trick);
-                } elseif ($video->getIframe() === null) {
+                } elseif (null === $video->getIframe()) {
                     $trick->removeVideo($video);
                 }
             }

@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\UniqUsername;
+use App\Validator\UniqEmail;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -37,6 +38,7 @@ class User implements UserInterface, \Serializable
      *     message = "The email '{{ value }}' is not a valid email.",
      *     checkMX = true
      * )
+     * @UniqEmail()
      */
     private $email;
 
@@ -58,6 +60,11 @@ class User implements UserInterface, \Serializable
     public function __construct()
     {
         $this->isActive = false;
+        $this->resetToken();
+    }
+
+    public function resetToken()
+    {
         $this->token = md5(uniqid());
     }
 

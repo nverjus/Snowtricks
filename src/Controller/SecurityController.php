@@ -19,10 +19,9 @@ class SecurityController extends Controller
 {
     public function login(Request $request, AuthenticationUtils $authenticationUtils)
     {
-        // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
-        // last username entered by the user
+
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', array(
@@ -40,10 +39,10 @@ class SecurityController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($user->getUserPhoto()->getAdress() !== null) {
+            if (null !== $user->getUserPhoto()->getAdress()) {
                 $filename = $uploader->upload($user->getUserPhoto()->getAdress(), $this->getParameter('users_photos_directory'));
                 $user->getUserPhoto()->setAdress($filename);
-            } elseif ($user->getUserPhoto()->getAdress() === null) {
+            } elseif (null === $user->getUserPhoto()->getAdress()) {
                 $user->setUserPhoto(null);
             }
             $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
@@ -82,10 +81,10 @@ class SecurityController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($user->getUserPhoto() !== null) {
+            if (null !== $user->getUserPhoto()) {
                 $filename = $uploader->upload($user->getUserPhoto()->getAdress(), $this->getParameter('users_photos_directory'));
                 $user->getUserPhoto()->setAdress($filename);
-            } elseif ($user->getUserPhoto() === null) {
+            } elseif (null === $user->getUserPhoto()) {
                 $user->setUserPhoto($photo);
             }
             $user->getPassword() === null ? $user->setPassword($oldPassword) : $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
@@ -104,7 +103,7 @@ class SecurityController extends Controller
 
     public function activateAccount(User $user)
     {
-        if ($user->isEnabled()) {
+        if ($user->getIsActive()) {
             throw $this->createNotFoundException('This account is already enabled');
         }
 
@@ -125,7 +124,7 @@ class SecurityController extends Controller
             $data = $form->getData();
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $data['username']]);
 
-            if ($user !== null) {
+            if (null !== $user) {
                 $message = (new \Swift_Message('Snowtricks, reset password'))
                               ->setFrom('nverjus@gmail.com')
                               ->setTo($user->getEmail())

@@ -86,7 +86,7 @@
       {% endif %}
     </div>
     <hr>
-    {% if is_granted('IS_ANTHENTICATED_REMEMBERED') %}
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
       <div id="comment-form">
         {% for message in app.flashes('comment-notice') %}
           <div class="row">

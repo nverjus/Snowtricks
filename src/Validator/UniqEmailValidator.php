@@ -9,7 +9,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\User;
 
-class UniqUsernameValidator extends ConstraintValidator
+class UniqEmailValidator extends ConstraintValidator
 {
     private $manager;
 
@@ -20,7 +20,7 @@ class UniqUsernameValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint)
     {
-        if (null !== $this->manager->getRepository(User::class)->findOneBy(['username' => $value])) {
+        if (null !== $this->manager->getRepository(User::class)->findOneBy(['email' => $value])) {
             $this->context->addViolation($constraint->message);
         }
     }

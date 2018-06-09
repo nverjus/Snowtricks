@@ -19,10 +19,6 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
-    /**
-     * @return Trick[] Returns an array of Trick objects
-     */
-
     public function findAPage($offset = 1, $tricksPerPage)
     {
         return $this->createQueryBuilder('t')
@@ -34,9 +30,6 @@ class TrickRepository extends ServiceEntityRepository
         ;
     }
 
-    /**
-     * @return int Returns hte number of tricks in database
-     */
 
     public function findNbPages($tricksPerPage)
     {
