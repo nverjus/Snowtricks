@@ -21,43 +21,15 @@ class BackController extends Controller
     public function editTrick(Trick $trick, Request $request, ImageUploader $imageUploader)
     {
         $manager = $this->getDoctrine()->getManager();
-        $trickPhotos = $trick->getTrickPhotos();
-        $trick->resetTrickPhotos();
-        $videos = $trick->getVideos();
-        $trick->resetVideos();
+        $trickPhotos = $trick->resetTrickPhotos();
+        $videos = $trick->resetVideos();
 
         $trickForm = $this->createForm(TrickType::class, $trick);
         $trickForm->handleRequest($request);
 
         if ($trickForm->isSubmitted() && $trickForm->isValid()) {
-            $trick = $trickForm->getData();
-            $trick->setUpdateDate(new \DateTime());
-            // Photos management
-            foreach ($trick->getTrickPhotos() as $photo) {
-                if (null !== $photo->getAdress()) {
-                    $filename = $imageUploader->upload($photo->getAdress(), $this->getParameter('tricks_photos_directory'));
-                    $photo->setAdress($filename);
-                    $photo->setTrick($trick);
-                } elseif (null === $photo->getAdress()) {
-                    $trick->removeTrickPhoto($photo);
-                }
-            }
-            foreach ($trickPhotos as $photo) {
-                $trick->addTrickPhoto($photo);
-            }
+            $trick->processTrick($this->getParameter('tricks_photos_directory'), $imageUploader, $trickPhotos, $videos);
 
-            foreach ($trick->getVideos() as $video) {
-                if (null !== $video->getIframe()) {
-                    $video->setTrick($trick);
-                } elseif (null === $video->getIframe()) {
-                    $trick->removeVideo($video);
-                }
-            }
-            foreach ($videos as $video) {
-                $trick->addVideo($video);
-            }
-
-            $manager->persist($trick);
             $manager->flush();
 
             $this->addFlash(
@@ -74,8 +46,7 @@ class BackController extends Controller
         $frontPhotoForm->handleRequest($request);
 
         if ($frontPhotoForm->isSubmitted() && $frontPhotoForm->isValid()) {
-            $fileName = $imageUploader->upload($frontPhoto->getAdress(), $this->getParameter('tricks_photos_directory'));
-            $frontPhoto->setAdress($fileName);
+            $frontPhoto->add($this->getParameter('tricks_photos_directory'), $imageUploader);
             $frontPhoto->setTrick($trick);
             $trick->setFrontPhoto($frontPhoto);
 
@@ -105,27 +76,8 @@ class BackController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $trick = $form->getData();
-            $trick->setUpdateDate(new \DateTime());
-            // Photos management
-            foreach ($trick->getTrickPhotos() as $photo) {
-                if (null !== $photo->getAdress()) {
-                    $filename = $imageUploader->upload($photo->getAdress(), $this->getParameter('tricks_photos_directory'));
-                    $photo->setAdress($filename);
-                    $photo->setTrick($trick);
-                } elseif (null === $photo->getAdress()) {
-                    $trick->removeTrickPhoto($photo);
-                }
-                $trick->setFrontPhoto($trick->getTrickPhotos()[0]);
-            }
-            // Videos management
-            foreach ($trick->getVideos() as $video) {
-                if (null !== $video->getIframe()) {
-                    $video->setTrick($trick);
-                } elseif (null === $video->getIframe()) {
-                    $trick->removeVideo($video);
-                }
-            }
+            $trick->processTrick($this->getParameter('tricks_photos_directory'), $imageUploader);
+            $trick->setFrontPhoto($trick->getTrickPhotos()[0]);
 
             $manager->persist($trick);
             $manager->flush();
@@ -165,10 +117,7 @@ class BackController extends Controller
     public function deleteTrickPhoto(TrickPhoto $photo, ImageUploader $imageUploader)
     {
         $manager = $this->getDoctrine()->getManager();
-        if ($photo->getTrick()->getFrontPhoto() == $photo) {
-            $photo->getTrick()->setFrontPhoto(null);
-        }
-        $imageUploader->remove($photo->getAdress(), $this->getParameter('tricks_photos_directory'));
+        $photo->delete($imageUploader, $this->getParameter('tricks_photos_directory'));
         $manager->remove($photo);
         $manager->flush();
 
@@ -218,9 +167,10 @@ class BackController extends Controller
      */
     public function deleteFrontPhoto(Trick $trick, ImageUploader $imageUploader)
     {
+        $manager = $this->getDoctrine()->getManager();
+
         $photo = $trick->getFrontPhoto();
-        $trick->setFrontPhoto(null);
-        $imageUploader->remove($photo->getAdress(), $this->getParameter('tricks_photos_directory'));
+        $photo->delete($imageUploader, $this->getParameter('tricks_photos_directory'));
         $manager->remove($photo);
         $manager->flush();
 

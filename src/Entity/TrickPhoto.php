@@ -38,7 +38,7 @@ class TrickPhoto
     {
         return $this->id;
     }
-    
+
     public function getAdress()
     {
         return $this->adress;
@@ -61,5 +61,20 @@ class TrickPhoto
         $this->trick = $trick;
 
         return $this;
+    }
+
+
+    public function delete($uploader, $uploadDir)
+    {
+        if ($this->getTrick()->getFrontPhoto() == $this) {
+            $this->getTrick()->setFrontPhoto(null);
+        }
+        $uploader->remove($this->getAdress(), $uploadDir);
+    }
+
+    public function add($uploader, $uploadDir)
+    {
+        $filename = $uploader->upload($this->getAdress(), $uploadDir);
+        $this->setAdress($filename);
     }
 }

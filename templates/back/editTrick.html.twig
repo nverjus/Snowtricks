@@ -160,8 +160,7 @@
         {{ form_start(frontPhotoForm) }}
         <div class="modal-body">
           {{ form_errors(frontPhotoForm ) }}
-          {{ form_errors(frontPhotoForm.adress) }}
-          {{ form_widget(frontPhotoForm.adress) }}
+          {{ form_widget(frontPhotoForm) }}
           {{ form_rest(frontPhotoForm) }}
         </div>
         <div class="modal-footer">
@@ -191,11 +190,11 @@
     </div>
 
     <!-- Photo delete modals -->
-    <div class="modal fade" id="delFrontPhoto" tabindex="-1" role="dialog" aria-labelledby="DelPhotoLabel" aria-hidden="true">
+    <div class="modal fade" id="delPhoto-{{ photo.id }}" tabindex="-1" role="dialog" aria-labelledby="DelPhotoLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="DelPhotoLabel">Delete the photo</h5>
+            <h5 class="modal-title" id="DelPhotoLabel">Delete the front photo</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -214,19 +213,18 @@
       </div>
     </div>
   {% endfor %}
-
   <!-- Photo delete modals -->
-  <div class="modal fade" id="delPhoto" tabindex="-1" role="dialog" aria-labelledby="DelPhotoLabel" aria-hidden="true">
+  <div class="modal fade" id="delFrontPhoto" tabindex="-1" role="dialog" aria-labelledby="DelPhotoLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="DelPhotoLabel">Delete the front photo</h5>
+          <h5 class="modal-title" id="DelPhotoLabel">Delete the photo</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          Are your sure you you want to delete the front photo ?
+          Are your sure you you want to delete this photo ?
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -255,7 +253,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <a href="{{ asset('delete_video', {'id': video.id}) }}">
+            <a href="{{ path('delete_video', {'id': video.id}) }}">
               <button type="button" class="btn btn-danger">
                 Delete</button>
             </a>

@@ -25,7 +25,7 @@ class Trick
      * @Assert\NotBlank(message = "The trick must have a name")
      * @Assert\Length(min = 3,
      *               minMessage = "The name must have at least 3 characters",
-     *               max = 25,
+     *               max = 50,
      *               maxMessage = "The name can't have more than 50 characters"
      * )
      */
@@ -215,8 +215,9 @@ class Trick
 
     public function resetTrickPhotos()
     {
+        $photos = $this->trickPhotos;
         $this->trickPhotos = new ArrayCollection();
-        return $this;
+        return $photos;
     }
 
     public function setTrickPhotos($trickPhotos): self
@@ -258,8 +259,9 @@ class Trick
 
     public function resetVideos()
     {
+        $videos = $this->videos;
         $this->videos = new ArrayCollection();
-        return $this;
+        return $videos;
     }
 
     public function setVideos($videos): self
@@ -281,5 +283,64 @@ class Trick
         }
 
         return $this;
+    }
+
+    public function ajaxData()
+    {
+        $trickData = array(
+        "id" => $this->getId(),
+        "name" => $this->getName(),
+        "photo" => "no-photo.png",
+      );
+        if (null !== $this->getFrontPhoto()) {
+            $trickData['photo'] = $this->getFrontPhoto()->getAdress();
+        }
+
+        return $trickData;
+    }
+
+    public function processTrickPhotos($uploadDir, $imageUploader)
+    {
+        foreach ($this->getTrickPhotos() as $photo) {
+            if (null !== $photo->getAdress()) {
+                $photo->add($imageUploader, $uploadDir);
+                $photo->setTrick($this);
+            } elseif (null === $photo->getAdress()) {
+                $trick->removeTrickPhoto($photo);
+            }
+        }
+    }
+
+    public function processVideos()
+    {
+        foreach ($this->getVideos() as $video) {
+            if (null !== $video->getIframe()) {
+                $video->setTrick($this);
+            } elseif (null === $video->getIframe()) {
+                $this->removeVideo($video);
+            }
+        }
+    }
+
+    public function processTrick($uploadDir, $imageUploader, $trickPhotos = null, $videos = null)
+    {
+        $this->setUpdateDate(new \DateTime());
+
+        $this->processTrickPhotos($uploadDir, $imageUploader);
+        $photos = $this->getTrickPhotos();
+        if (null !== $trickPhotos) {
+            $this->setTrickPhotos($trickPhotos);
+        }
+        foreach ($photos as $photo) {
+            $this->addTrickPhoto($photo);
+        }
+        $this->processVideos();
+        $newVideos = $this->getVideos();
+        if (null !== $videos) {
+            $this->setVideos($videos);
+        }
+        foreach ($newVideos as $video) {
+            $this->addVideo($video);
+        }
     }
 }

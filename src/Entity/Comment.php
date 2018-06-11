@@ -97,4 +97,21 @@ class Comment
 
         return $this;
     }
+
+    public function ajaxData()
+    {
+        $commentData = array(
+        'publicationDate' => $this->getCreationDate()->format('d-m-Y'),
+        'content' => $this->getContent(),
+        'user' => array(
+          'name' => $this->getUser()->getUsername(),
+          'photo' => 'default.png',
+        ),
+      );
+        if ($this->getUser()->getUserPhoto() !== null) {
+            $commentData['user']['photo'] = $this->getUser()->getUserPhoto()->getAdress();
+        }
+
+        return $commentData;
+    }
 }

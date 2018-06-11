@@ -16,6 +16,7 @@ class TrickPhotoType extends AbstractType
         $builder
             ->add('adress', FileType::class, array(
               'constraints' => new Image(),
+              'translation_domain' => false,
             ))
         ;
     }

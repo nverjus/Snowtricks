@@ -27,15 +27,7 @@ class FrontController extends Controller
         $data = [];
 
         foreach ($tricks as $trick) {
-            $trickData = array(
-              "id" => $trick->getId(),
-              "name" => $trick->getName(),
-              "photo" => "no-photo.png",
-            );
-            if ($trick->getFrontPhoto() !== null) {
-                $trickData['photo'] = $trick->getFrontPhoto()->getAdress();
-            }
-            $tricksData[] = $trickData;
+            $tricksData[] = $trick->ajaxData();
         }
         $data['nbPages'] = $this->getDoctrine()->getRepository(Trick::class)->findNbPages($this->getParameter('tricks_per_page'));
         $data['tricks'] = $tricksData;
@@ -59,7 +51,6 @@ class FrontController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
 
-            $comment = $form->getData();
             $comment->setTrick($trick);
             $comment->setUser($this->getUser());
 
@@ -89,18 +80,7 @@ class FrontController extends Controller
         $data = [];
 
         foreach ($comments as $comment) {
-            $commentData = array(
-              'publicationDate' => $comment->getCreationDate()->format('d-m-Y'),
-              'content' => $comment->getContent(),
-              'user' => array(
-                'name' => $comment->getUser()->getUsername(),
-                'photo' => 'default.png',
-              ),
-            );
-            if ($comment->getUser()->getUserPhoto() !== null) {
-                $commentData['user']['photo'] = $comment->getUser()->getUserPhoto()->getAdress();
-            }
-            $commentsData[] = $commentData;
+            $commentsData[] = $comment->ajaxData();
         }
         $data['nbPages'] = $this->getDoctrine()->getRepository(Comment::class)->findNbPages($id, $this->getParameter('comments_per_page'));
         $data['comments'] = $commentsData;
