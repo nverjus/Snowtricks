@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Service\ImageUploader;
+use App\Service\Mailer;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\EditUserType;
@@ -30,7 +31,7 @@ class SecurityController extends Controller
     }
 
 
-    public function register(Request $request, ImageUploader $uploader, \Swift_Mailer $mailer)
+    public function register(Request $request, ImageUploader $uploader, Mailer $mailer)
     {
         $manager = $this->getDoctrine()->getManager();
         $user = new User();
@@ -44,15 +45,10 @@ class SecurityController extends Controller
             } elseif (null === $user->getUserPhoto()->getAdress()) {
                 $user->setUserPhoto(null);
             }
+            $mailer->sendAccountActivationEmail($user, $this->renderView('emails/activation.html.twig', array('user' => $user)));
+
             $manager->persist($user);
             $manager->flush();
-
-            $message = (new \Swift_Message('Snowtricks, account activation'))
-                ->setFrom('nverjus@gmail.com')
-                ->setTo($user->getEmail())
-                ->setBody($this->renderView('emails/activation.html.twig', array('user' => $user)), 'text/html');
-
-            $mailer->send($message);
 
             $this->addFlash(
             'notice',
@@ -69,7 +65,7 @@ class SecurityController extends Controller
      */
     public function editUser(Request $request, ImageUploader $uploader)
     {
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $this->getUser()->getUsername()]);
+        $user = $this->getUser();
         $user->getUserPhoto() !== null ? $photo = $user->getUserPhoto() : $photo = null;
         $user->setUserPhoto(null);
         $user->setOldPassword($user->getPassword());
@@ -110,7 +106,7 @@ class SecurityController extends Controller
         return $this->render('security/activateAccount.html.twig');
     }
 
-    public function forgotPassword(Request $request, \Swift_Mailer $mailer)
+    public function forgotPassword(Request $request, Mailer $mailer)
     {
         $data = [];
 
@@ -122,12 +118,7 @@ class SecurityController extends Controller
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $data['username']]);
 
             if (null !== $user) {
-                $message = (new \Swift_Message('Snowtricks, reset password'))
-                              ->setFrom('nverjus@gmail.com')
-                              ->setTo($user->getEmail())
-                              ->setBody($this->renderView('emails/forgotPassword.html.twig', array('user' => $user)), 'text/html');
-
-                $mailer->send($message);
+                $mailer->sendResetPasswordEmal($user, $this->renderView('emails/forgotPassword.html.twig', array('user' => $user)));
                 $this->addFlash(
               'notice',
               'An email has been sent to your email adress'

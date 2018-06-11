@@ -19,7 +19,6 @@ class UserType extends AbstractType
         $builder
             ->add('username', TextType::class, array(
               'translation_domain' => false,
-              'constraints' => new UniqUsername(),
 
             ))
             ->add('password', PasswordType::class, array(
