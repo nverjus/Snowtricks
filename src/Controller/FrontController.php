@@ -13,11 +13,23 @@ use App\Entity\User;
 
 class FrontController extends Controller
 {
+    /**
+     * @Route("/",
+     *        name="index"
+     * )
+     */
     public function index()
     {
         return $this->render('front/index.html.twig', array('tricks' => $this->getDoctrine()->getRepository(Trick::class)->findAPage(0, $this->getParameter('tricks_per_page'))));
     }
 
+    /**
+     * @Route("/{page}",
+     *        name="ajax_tricks",
+     *        requirements={"page"="\d+"},
+     *        condition="request.isXmlHttpRequest()"
+     * )
+     */
     public function ajaxTricks($page)
     {
         $offset = $page * $this->getParameter('tricks_per_page');
@@ -40,6 +52,12 @@ class FrontController extends Controller
         return $response;
     }
 
+    /**
+     * @Route("/trick/{id}",
+     *        name="trick",
+     *        requirements={"id"="\d+"},
+     * )
+     */
     public function trick(Trick $trick, Request $request)
     {
         $comments = $this->getDoctrine()->getRepository(Comment::class)->findAPage($trick->getId(), 0, $this->getParameter('comments_per_page'));
@@ -71,6 +89,13 @@ class FrontController extends Controller
         ));
     }
 
+    /**
+     * @Route("/trick/{id}/{page}",
+     *        name="ajax_comments",
+     *        requirements={"id"="\d+","page"="\d+"},
+     *        condition="request.isXmlHttpRequest()"
+     * )
+     */
     public function ajaxComments($id, $page)
     {
         $offset = $page * $this->getParameter('comments_per_page');

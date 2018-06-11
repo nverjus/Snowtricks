@@ -17,6 +17,11 @@ use App\Form\ResetPasswordType;
 
 class SecurityController extends Controller
 {
+    /**
+     * @Route("/login",
+     *        name="login"
+     * )
+     */
     public function login(Request $request, AuthenticationUtils $authenticationUtils)
     {
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -30,7 +35,11 @@ class SecurityController extends Controller
       ));
     }
 
-
+    /**
+     * @Route("/register",
+     *        name="register"
+     * )
+     */
     public function register(Request $request, ImageUploader $uploader, Mailer $mailer)
     {
         $manager = $this->getDoctrine()->getManager();
@@ -62,6 +71,9 @@ class SecurityController extends Controller
 
     /**
      * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @Route("/user/edit",
+     *        name="edit_user"
+     * )
      */
     public function editUser(Request $request, ImageUploader $uploader)
     {
@@ -94,6 +106,11 @@ class SecurityController extends Controller
         return $this->render('security/editUser.html.twig', array('form' => $form->createView()));
     }
 
+    /**
+     * @Route("/activate/{token}",
+     *        name="activate_account"
+     * )
+     */
     public function activateAccount(User $user)
     {
         if ($user->getIsActive()) {
@@ -106,6 +123,11 @@ class SecurityController extends Controller
         return $this->render('security/activateAccount.html.twig');
     }
 
+    /**
+     * @Route("/forgot-password",
+     *        name="forgot-password"
+     * )
+     */
     public function forgotPassword(Request $request, Mailer $mailer)
     {
         $data = [];
@@ -134,6 +156,11 @@ class SecurityController extends Controller
         return $this->render('security/forgotPassword.html.twig', array('form' => $form->createView()));
     }
 
+    /**
+     * @Route("/reset/{token}",
+     *        name="reset-password"
+     * )
+     */
     public function resetPassword(User $user, Request $request)
     {
         $data = [];

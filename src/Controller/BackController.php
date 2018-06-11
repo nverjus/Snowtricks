@@ -17,6 +17,10 @@ class BackController extends Controller
 {
     /**
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @Route("/trick/edit/{id}",
+     *        name="edit_trick",
+     *        requirements={"id"="\d+"},
+     * )
      */
     public function editTrick(Trick $trick, Request $request, ImageUploader $imageUploader)
     {
@@ -66,6 +70,9 @@ class BackController extends Controller
 
     /**
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @Route("/trick/add",
+     *        name="add_trick",
+     * )
      */
     public function addTrick(Request $request, ImageUploader $imageUploader)
     {
@@ -96,6 +103,10 @@ class BackController extends Controller
 
     /**
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @Route("/trick/video/delete/{id}",
+     *        name="delete_video",
+     *        requirements={"id"="\d+"},
+     * )
      */
     public function deleteVideo(Video $video)
     {
@@ -113,6 +124,10 @@ class BackController extends Controller
 
     /**
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @Route("/trick/photo/delete/{id}",
+     *        name="delete_trick_photo",
+     *        requirements={"id"="\d+"},
+     * )
      */
     public function deleteTrickPhoto(TrickPhoto $photo, ImageUploader $imageUploader)
     {
@@ -131,6 +146,10 @@ class BackController extends Controller
 
     /**
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @Route("/trick/delete/{id}",
+     *        name="delete_trick",
+     *        requirements={"id"="\d+"},
+     * )
      */
     public function deleteTrick(Trick $trick, ImageUploader $uploader)
     {
@@ -164,6 +183,10 @@ class BackController extends Controller
 
     /**
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
+     * @Route("/trick/frontphoto/delete/{id}",
+     *        name="delete_front_photo",
+     *        requirements={"id"="\d+"},
+     * )
      */
     public function deleteFrontPhoto(Trick $trick, ImageUploader $imageUploader)
     {
