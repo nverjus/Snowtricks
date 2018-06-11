@@ -6,7 +6,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Service\ImageUploader;
 use App\Entity\User;
@@ -31,7 +30,7 @@ class SecurityController extends Controller
     }
 
 
-    public function register(Request $request, ImageUploader $uploader, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer)
+    public function register(Request $request, ImageUploader $uploader, \Swift_Mailer $mailer)
     {
         $manager = $this->getDoctrine()->getManager();
         $user = new User();
@@ -45,7 +44,6 @@ class SecurityController extends Controller
             } elseif (null === $user->getUserPhoto()->getAdress()) {
                 $user->setUserPhoto(null);
             }
-            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
             $manager->persist($user);
             $manager->flush();
 
@@ -69,12 +67,12 @@ class SecurityController extends Controller
     /**
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function editUser(Request $request, ImageUploader $uploader, UserPasswordEncoderInterface $encoder)
+    public function editUser(Request $request, ImageUploader $uploader)
     {
-        $user = $this->getUser();
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['username' => $this->getUser()->getUsername()]);
         $user->getUserPhoto() !== null ? $photo = $user->getUserPhoto() : $photo = null;
         $user->setUserPhoto(null);
-        $oldPassword = $user->getPassword();
+        $user->setOldPassword($user->getPassword());
 
 
         $form = $this->createForm(EditUserType::class, $user);
@@ -87,7 +85,6 @@ class SecurityController extends Controller
             } elseif (null === $user->getUserPhoto()) {
                 $user->setUserPhoto($photo);
             }
-            $user->getPassword() === null ? $user->setPassword($oldPassword) : $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
 
             $this->getDoctrine()->getManager()->flush();
 
@@ -146,7 +143,7 @@ class SecurityController extends Controller
         return $this->render('security/forgotPassword.html.twig', array('form' => $form->createView()));
     }
 
-    public function resetPassword(User $user, Request $request, UserPasswordEncoderInterface $encoder)
+    public function resetPassword(User $user, Request $request)
     {
         $data = [];
 
@@ -157,7 +154,8 @@ class SecurityController extends Controller
             $data = $form->getData();
 
             if ($data['email'] === $user->getEmail()) {
-                $user->setPassword($encoder->encodePassword($user, $data['password']));
+                $user->setOldPassword($user->getPassword());
+                $user->setPassword($data['password']);
                 $user->resetToken();
                 $this->getDoctrine()->getManager()->flush();
 

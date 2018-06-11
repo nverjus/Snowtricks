@@ -15,13 +15,13 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $usersList = array(
           array(
             'username' => 'admin',
-            'password' => '$argon2i$v=19$m=1024,t=2,p=2$MHY3R2cxa3JIa3FUZkFaRw$E7hqA7d3/pjZB9yo+6XoyyQJlD8kWpbgWbTggcSnCUI',
+            'password' => 'admin',
             'email' => 'admin@admin.com',
             'userPhoto' => $manager->getRepository(UserPhoto::class)->find(1),
           ),
           array(
             'username' => 'user',
-            'password' => '$argon2i$v=19$m=1024,t=2,p=2$WHRsUTBxUmVINC9BTzBYMA$SZF2dUDQu7d+czFyEKPmuZA5/XxhJObWqYiasAt4IbU',
+            'password' => 'user',
             'email' => 'user@user.com',
             'userPhoto' => null,
           ),

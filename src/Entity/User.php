@@ -4,11 +4,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\UniqUsername;
-use App\Validator\UniqEmail;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity("email")
+ * @UniqueEntity("username")
  */
 class User implements UserInterface, \Serializable
 {
@@ -22,7 +23,6 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\Column(type="string", length=25, unique=true)
      * @Assert\NotBlank()
-     * @UniqUsername()
      */
     private $username;
 
@@ -38,7 +38,6 @@ class User implements UserInterface, \Serializable
      *     message = "The email '{{ value }}' is not a valid email.",
      *     checkMX = true
      * )
-     * @UniqEmail()
      */
     private $email;
 
@@ -56,6 +55,8 @@ class User implements UserInterface, \Serializable
      * @ORM\OneToOne(targetEntity="App\Entity\UserPhoto", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $userPhoto = null;
+
+    private $oldPassword;
 
     public function __construct()
     {
@@ -128,7 +129,7 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword($password): self
     {
         $this->password = $password;
 
@@ -179,6 +180,18 @@ class User implements UserInterface, \Serializable
     public function setUserPhoto($userPhoto): self
     {
         $this->userPhoto = $userPhoto;
+
+        return $this;
+    }
+
+    public function getOldPassword(): ?string
+    {
+        return $this->oldPassword;
+    }
+
+    public function setOldPassword(string $oldPassword): self
+    {
+        $this->oldPassword = $oldPassword;
 
         return $this;
     }
