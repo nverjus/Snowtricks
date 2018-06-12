@@ -34,6 +34,16 @@ class TrickPhoto
      */
     private $trick;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isFrontPhoto;
+
+    public function __construct()
+    {
+        $this->isFrontPhoto = false;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -76,5 +86,20 @@ class TrickPhoto
     {
         $filename = $uploader->upload($this->getAdress(), $uploadDir);
         $this->setAdress($filename);
+    }
+
+    public function getIsFrontPhoto(): ?bool
+    {
+        return $this->isFrontPhoto;
+    }
+
+    public function setIsFrontPhoto(bool $isFrontPhoto): self
+    {
+        $this->isFrontPhoto = $isFrontPhoto;
+        if ($isFrontPhoto) {
+            $this->getTrick()->setFrontPhoto($this);
+        }
+
+        return $this;
     }
 }

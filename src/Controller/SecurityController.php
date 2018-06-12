@@ -125,7 +125,7 @@ class SecurityController extends Controller
 
     /**
      * @Route("/forgot-password",
-     *        name="forgot-password"
+     *        name="forgot_password"
      * )
      */
     public function forgotPassword(Request $request, Mailer $mailer)
@@ -158,7 +158,7 @@ class SecurityController extends Controller
 
     /**
      * @Route("/reset/{token}",
-     *        name="reset-password"
+     *        name="reset_password"
      * )
      */
     public function resetPassword(User $user, Request $request)

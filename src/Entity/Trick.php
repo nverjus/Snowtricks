@@ -192,6 +192,9 @@ class Trick
         if (!$this->trickPhotos->contains($trickPhoto)) {
             $this->trickPhotos[] = $trickPhoto;
             $trickPhoto->setTrick($this);
+            if (null === $this->frontPhoto) {
+                $this->setFrontPhoto($trickPhoto);
+            }
         }
 
         return $this;

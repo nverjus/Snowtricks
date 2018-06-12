@@ -1,0 +1,123 @@
+App\Entity\UserPhoto:
+  adminPhoto:
+    adress:                "admin.png"
+
+App\Entity\User:
+  user-admin:
+    username:              "admin"
+    email:                 "admin@admin.com"
+    password:              "admin"
+    userPhoto:             "@adminPhoto"
+    isActive:              1
+  user-{1..20}:
+    username:              "<username()>"
+    email:                 "<email()>"
+    password:              "testtest"
+    userPhoto:             null
+    isActive:              1
+
+App\Entity\TrickGroup:
+  group_{Grab, Flip, Slide}:
+    name:                  "<current()>"
+
+App\Entity\Trick:
+            trick1:
+              name:        "Mute"
+              description: "Saisie de la carre frontside de la planche entre les deux pieds avec la main avant"
+              trickGroup:  "@group_Grab"
+            trick2:
+              name:        "Sad"
+              description: "Saisie de la carre backside de la planche entre les deux pieds avec la main avant"
+              trickGroup:  "@group_Grab"
+            trick3:
+              name:        "Tail Grab"
+              description: "Saisie de la partie arrière de la planche avec la main arrière"
+              trickGroup:  "@group_Grab"
+            trick4:
+              name:        "Nose Grab"
+              description: "Saisie de la partie avant de la planche avec la main avant"
+              trickGroup:  "@group_Grab"
+            trick5:
+              name:        "Japan Air"
+              description: "Saisie de l'avant de la planche avec la main avant du côté de la carre frontside"
+              trickGroup:  "@group_Grab"
+            trick6:
+              name:        "Seat Belt"
+              description: "Saisie du carre frontside à l'arrière avec la main avant"
+              trickGroup:  "@group_Grab"
+            trick7:
+              name:        "Truck Driver"
+              description: "Saisie du carre avant et carre arrière avec chaque main (comme tenir un volant de voiture)"
+              trickGroup:  "@group_Grab"
+            trick8:
+              name:        "Rodeofront"
+              description: "Rotation front avec une impulsion très marquée sur les pointes de pieds"
+              trickGroup:  "@group_Flip"
+            trick9:
+              name:        "Mistyflip"
+              description: "C'est une rotation back mélangée avec un frontflip effectuée dans un pipe c'est un mac-twist l'impulsion à lieu sur les pointes de pied"
+              trickGroup:  "@group_Flip"
+            trick10:
+              name:        "Rodeoback"
+              description: "C'est la rotation la plus vue des 3 dernières années c'est une rotation back mélangée avec un backflip impulsion sur les talons"
+              trickGroup:  "@group_Flip"
+            trick11:
+              name:        "50-50"
+              description: "Un slide ou le rider est perpendiculaire à la barre un pied de chaque cotés"
+              trickGroup:  "@group_Slide"
+            trick12:
+              name:        "Nose slide"
+              description: "Variante du 50-50 le pied avant étant en appui sur la barre"
+              trickGroup:  "@group_Slide"
+            trick13:
+              name:        "Tail slide"
+              description: "Variante du 50-50 le pied arrière étant en appui sur la barre"
+              trickGroup:  "@group_Slide"
+            trick14:
+              name:        "Nose Press"
+              description: "Un trick réalisé parallelement à la barre le poid du corps sur l'avant pour soulever le pied arrière"
+              trickGroup:  "@group_Slide"
+            trick15:
+              name:        "Tail Press"
+              description: "Un trick réalisé parallelement à la barre le poid du corps sur l'arriète pour soulever le pied avant"
+              trickGroup:  "@group_Slide"
+            trick16:
+              name:        "Mute2"
+              description: "Saisie de la carre frontside de la planche entre les deux pieds avec la main avant"
+              trickGroup:  "@group_Grab"
+            trick17:
+              name:        "Sad2"
+              description: "Saisie de la carre backside de la planche entre les deux pieds avec la main avant"
+              trickGroup:  "@group_Grab"
+            trick18:
+              name:        "Tail Grab2"
+              description: "Saisie de la partie arrière de la planche avec la main arrière"
+              trickGroup:  "@group_Grab"
+            trick19:
+              name:        "Nose Grab2"
+              description: "Saisie de la partie avant de la planche avec la main avant"
+              trickGroup:  "@group_Grab"
+            trick20:
+              name:        "Nose slide2"
+              description: "Variante du 50-50 le pied avant étant en appui sur la barre"
+              trickGroup:  "@group_Slide"
+
+App\Entity\Comment:
+  comment-{1..300}:
+    user:                  "@user-*"
+    trick:                 "@trick*"
+    content:               <comment()>
+
+App\Entity\TrickPhoto:
+  photo-{@trick*}:
+      adress:              <trickPhoto()>
+      trick:               "<current()>"
+      isFrontPhoto:        true
+  photo-{1..50}:
+    adress:                <trickPhoto()>
+    trick:                 "@trick*"
+
+App\Entity\Video:
+  video-{1..10}:
+    iframe:                <video()>
+    trick:                 "@trick*"
