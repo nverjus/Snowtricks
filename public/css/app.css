@@ -71,6 +71,10 @@ header {
   margin: 20px;
 }
 
+.img-fluid {
+  width: 100%;
+}
+
 .trick img, .trick-actions {
   border: solid #E8F1F2 1px;
   background-color: #E8F1F2;

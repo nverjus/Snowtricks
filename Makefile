@@ -41,7 +41,8 @@ db: vendor                                                                      
 	$(EXEC) $(CONSOLE) doctrine:schema:create
 	$(EXEC) $(CONSOLE) doctrine:fixtures:load -n
 
-
+tests: db																																								## The the units tests
+	$(EXEC) bin/phpunit
 
 # Internal rules
 

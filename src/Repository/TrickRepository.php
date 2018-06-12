@@ -19,7 +19,7 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
-    public function findAPage($offset = 1, $tricksPerPage)
+    public function findAPage($offset, $tricksPerPage)
     {
         return $this->createQueryBuilder('t')
             ->orderBy('t.id', 'DESC')
