@@ -1,5 +1,10 @@
-version:   "2"
+version:    "2"
 
 services:
   mysql:
-    image: mysql:5.7
+    image:  mysql:5.7
+
+  maildev:
+    image:  djfarrelly/maildev
+    ports:
+      - 8001:80
