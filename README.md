@@ -1,6 +1,6 @@
 # Snowtricks, a snowboarders community
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3be5a0b496fe4f92945aed3521420520)](https://www.codacy.com/app/nverjus/Snowtricks?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=nverjus/Snowtricks&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3be5a0b496fe4f92945aed3521420520)](https://www.codacy.com/app/nverjus/Snowtricks?utm_source=github.com&utm_medium=referral&utm_content=nverjus/Snowtricks&utm_campaign=Badge_Grade)
 
 ## Prerequisite installation
 
@@ -37,9 +37,8 @@ Duplicate `.env.dist` and name the copy `.env`.
 
 Edit this line with your database informations : `DATABASE_URL=mysql://snowtricks:snowtricks@mysql:3306/snowtricks`
 
-Edit this line with your mail server informations : `MAILER_URL=gmail://username:password@localhost`
 Follow the links in the file for more informations.
 
 Run `make start` to start the app.
 
-By default, the app is reachable at `http://localhost:8080`
+By default, the app is reachable at `http://localhost:8080` and the mail server at `http://localhost:8001/`
