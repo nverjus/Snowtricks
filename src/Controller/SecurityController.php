@@ -118,6 +118,8 @@ class SecurityController extends Controller
         }
 
         $user->setIsActive(true);
+        $user->setOldPassword($user->getPassword());
+        $user->setPassword(null);
         $user->resetToken();
         $this->getDoctrine()->getManager()->flush();
         return $this->render('security/activateAccount.html.twig');

@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\Image;
 
 class UserPhotoType extends AbstractType
 {
@@ -17,6 +18,7 @@ class UserPhotoType extends AbstractType
             'translation_domain' => false,
             'required'     => false,
             'label' => 'Picture',
+            'constraints' => new Image(),
           ))
         ;
     }

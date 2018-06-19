@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\Image;
 
 class TrickPhotoType extends AbstractType
 {
@@ -15,6 +16,7 @@ class TrickPhotoType extends AbstractType
         $builder
             ->add('adress', FileType::class, array(
               'translation_domain' => false,
+              'constraints' => new Image(),
             ))
         ;
     }

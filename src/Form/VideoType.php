@@ -15,6 +15,7 @@ class VideoType extends AbstractType
     {
         $builder
             ->add('iframe', TextType::class, array(
+              'constraints' => new Iframe(),
             ))
         ;
     }
